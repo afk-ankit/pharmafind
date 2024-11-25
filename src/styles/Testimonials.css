@@ -1,35 +1,48 @@
 .testimonials-section {
-  padding: 60px 20px;
-  background-color: #f9f9f9; /* Light gray background */
+  padding: 4rem 1rem;
+  background-color: #fafafa;
+  position: relative;
+  overflow: hidden;
 }
 
 .testimonials-container {
-  max-width: 1200px;
+  max-width: 800px;
   margin: 0 auto;
   text-align: center;
+  position: relative;
 }
 
 .testimonials-header {
-  margin-bottom: 40px;
+  margin-bottom: 3rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .testimonials-subtitle {
-  font-size: 16px;
-  color: #e74c3c; /* Red color */
+  font-size: 0.875rem;
+  color: #e74c3c;
   text-transform: uppercase;
-  margin-bottom: 10px;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
 }
 
 .testimonials-title {
-  font-size: 36px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 10px;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2d3436;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 .testimonials-description {
-  font-size: 18px;
-  color: #666;
+  font-size: 1rem;
+  color: #636e72;
+  line-height: 1.6;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .testimonial-card {
@@ -37,67 +50,132 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 20px;
+  padding: 2.5rem 2rem;
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  margin: 0.5rem auto;
+  max-width: 650px;
+  position: relative;
 }
 
 .testimonial-avatar {
-  margin-bottom: 20px;
+  position: relative;
+  width: 110px;
+  height: 110px;
+  margin: -3.5rem auto 1.5rem; /* Negative margin to pull it up */
+  background-color: white;
+  border-radius: 50%;
+  padding: 5px; /* Creates white padding around image */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.avatar-placeholder {
-  width: 80px;
-  height: 80px;
+/* Style for the actual image */
+.avatar-image {
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
-  background-color: #ccc; /* Gray background for avatar */
+  object-fit: cover;
+  display: block;
 }
 
 .testimonial-content {
-  max-width: 800px;
+  max-width: 550px;
+  padding: 0 1rem;
+  margin-top: 0.5rem; /* Space after the centered image */
 }
 
 .testimonial-text {
-  font-size: 20px;
-  line-height: 1.6;
-  color: #555;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: #4a4a4a;
   position: relative;
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
+  font-weight: 400;
 }
 
 .testimonial-text .quote-icon {
-  font-size: 36px;
-  color: #e74c3c; /* Red color for quotes */
+  font-size: 3rem;
+  color: #e74c3c;
+  opacity: 0.12;
   position: absolute;
-  top: -10px;
-  left: -10px;
+  top: -1rem;
+  left: -1rem;
+  font-family: Georgia, serif;
 }
 
 .testimonial-author {
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2d3436;
+  margin-bottom: 0.25rem;
 }
 
 .testimonial-age {
-  font-size: 16px;
-  color: #999;
+  font-size: 0.875rem;
+  color: #7f8c8d;
+  font-weight: 500;
 }
 
-/* Centering the slider content */
+/* Slider Customization */
 .slick-slide {
   display: flex !important;
   justify-content: center;
   align-items: center;
+  padding-top: 3rem; /* Add space at top for overlapping image */
 }
 
 .slick-dots {
-  margin-top: 20px;
+  bottom: -2.5rem;
+}
+
+.slick-dots li {
+  margin: 0 0.25rem;
 }
 
 .slick-dots li button:before {
-  color: #ccc;
+  font-size: 0.5rem;
+  color: #dfe6e9;
+  opacity: 1;
+  transition: all 0.2s ease;
 }
 
 .slick-dots li.slick-active button:before {
-  color: #e74c3c; /* Active dot color */
+  color: #e74c3c;
+  transform: scale(1.2);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .testimonials-container {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+  
+  .testimonial-card {
+    padding: 2rem 1rem;
+    margin: 0.5rem;
+  }
+  
+  .testimonial-avatar {
+    width: 90px;
+    height: 90px;
+    margin: -3rem auto 1.25rem;
+  }
+  
+  .testimonial-text {
+    font-size: 1rem;
+  }
+  
+  .testimonials-title {
+    font-size: 1.75rem;
+  }
+  
+  .testimonial-author {
+    font-size: 0.9375rem;
+  }
+  
+  .testimonial-age {
+    font-size: 0.8125rem;
+  }
 }

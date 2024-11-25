@@ -3,16 +3,19 @@ import { useNavigate, Link } from 'react-router-dom';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import '../styles/Login.css';
+import '../styles/Register.css';
 
-const Login = () => {
+const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
+    fullName: '',
     email: '',
-    password: ''
+    password: '',
+    confirmPassword: ''
   });
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -33,16 +36,30 @@ const Login = () => {
   const validateForm = () => {
     const newErrors = {};
     
+    // Full name validation
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = 'Full name is required';
+    }
+
+    // Email validation
     if (!formData.email) {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email';
     }
     
+    // Password validation
     if (!formData.password) {
       newErrors.password = 'Password is required';
     } else if (formData.password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters';
+    }
+
+    // Confirm password validation
+    if (!formData.confirmPassword) {
+      newErrors.confirmPassword = 'Please confirm your password';
+    } else if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = 'Passwords do not match';
     }
     
     return newErrors;
@@ -58,13 +75,13 @@ const Login = () => {
         // Simulate API call
         await new Promise(resolve => setTimeout(resolve, 1500));
         console.log('Form submitted:', formData);
-        // Add your actual login logic here
+        // Add your actual registration logic here
         
-        // Navigate to home page after successful login
-        navigate('/home');
+        alert('Account created successfully!');
+        navigate('/login');
       } catch (error) {
-        console.error('Login error:', error);
-        setErrors({ submit: 'Login failed. Please try again.' });
+        console.error('Registration error:', error);
+        setErrors({ submit: 'Registration failed. Please try again.' });
       } finally {
         setIsLoading(false);
       }
@@ -77,16 +94,30 @@ const Login = () => {
     <div className="page-container">
       <Navbar />
       <main className="main-content">
-        <div className="login-container">
-          <div className="login-header">
-            <h2>Sign in to your account</h2>
+        <div className="register-container">
+          <div className="register-header">
+            <h2>Create your account</h2>
             <p>
-              Or{' '}
-              <Link to="/register">create a new account</Link>
+              Already have an account?{' '}
+              <Link to="/login">Sign in</Link>
             </p>
           </div>
           
-          <form onSubmit={handleSubmit} className="login-form">
+          <form onSubmit={handleSubmit} className="register-form">
+            <div className="form-group">
+              <label htmlFor="fullName">Full Name</label>
+              <input
+                id="fullName"
+                name="fullName"
+                type="text"
+                value={formData.fullName}
+                onChange={handleChange}
+                disabled={isLoading}
+                className={errors.fullName ? 'error' : ''}
+              />
+              {errors.fullName && <span className="error-message">{errors.fullName}</span>}
+            </div>
+
             <div className="form-group">
               <label htmlFor="email">Email address</label>
               <input
@@ -129,18 +160,48 @@ const Login = () => {
               {errors.password && <span className="error-message">{errors.password}</span>}
             </div>
 
-            <div className="form-options">
-              <div className="remember-me">
+            <div className="form-group">
+              <label htmlFor="confirmPassword">Confirm Password</label>
+              <div className="password-input">
                 <input
-                  type="checkbox"
-                  id="remember-me"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type={showConfirmPassword ? "text" : "password"}
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
                   disabled={isLoading}
+                  className={errors.confirmPassword ? 'error' : ''}
                 />
-                <label htmlFor="remember-me">Remember me</label>
+                <button
+                  type="button"
+                  className="toggle-password"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  disabled={isLoading}
+                >
+                  {showConfirmPassword ? (
+                    <EyeOffIcon className="icon" />
+                  ) : (
+                    <EyeIcon className="icon" />
+                  )}
+                </button>
               </div>
-              <Link to="/forgot-password" className="forgot-password">
-                Forgot your password?
-              </Link>
+              {errors.confirmPassword && (
+                <span className="error-message">{errors.confirmPassword}</span>
+              )}
+            </div>
+
+            <div className="terms-section">
+              <input
+                type="checkbox"
+                id="terms"
+                disabled={isLoading}
+              />
+              <label htmlFor="terms">
+                I agree to the{' '}
+                <Link to="/terms" className="terms-link">Terms of Service</Link>
+                {' '}and{' '}
+                <Link to="/privacy" className="terms-link">Privacy Policy</Link>
+              </label>
             </div>
 
             <button
@@ -148,7 +209,7 @@ const Login = () => {
               className={`submit-button ${isLoading ? 'loading' : ''}`}
               disabled={isLoading}
             >
-              {isLoading ? 'Signing in...' : 'Sign in'}
+              {isLoading ? 'Creating account...' : 'Create account'}
             </button>
           </form>
         </div>
@@ -158,4 +219,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

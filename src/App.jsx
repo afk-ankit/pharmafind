@@ -7,7 +7,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import HeroSection from './components/HeroSection';
-import SearchResults from './pages/SearchResults';
+import SearchResults from './Pages/SearchResults';
+
+import Register from './Pages/Register';
 
 
 
@@ -20,6 +22,14 @@ const App = () => {
 
         <Route path="/" element={<HeroSection />} />
         <Route path="/search" element={<SearchResults />} />
+
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+
+        <Route path="/home" element={<Home />} />
+
+
 
       </Routes>
     </Router>

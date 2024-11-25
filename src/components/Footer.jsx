@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="footer-logo">
           <div className="logo-circle">⚕</div>
           <div className="logo-text">
-            <span className="pharmacy-text">Pharmacy</span>
+            <span className="pharmacy-text">PharmaFind</span>
             <span className="store-text">store</span>
           </div>
         </div>
@@ -48,7 +48,7 @@ const Footer = () => {
         </div>
 
         <div className="footer-bottom">
-          <p>Copyright © 2023 Pharmacy Store | Design by TokoTema</p>
+          <p>Copyright © 2024 PharmaFind | Design by Praptipriyaph</p>
           <div className="footer-links">
             <a href="/terms">Terms of Use</a>
             <span className="separator">|</span>
