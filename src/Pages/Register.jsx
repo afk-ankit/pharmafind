@@ -11,7 +11,10 @@ const Register = () => {
     fullName: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    address: '',
+    city: '',
+    pincode: ''
   });
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
@@ -36,30 +39,42 @@ const Register = () => {
   const validateForm = () => {
     const newErrors = {};
     
-    // Full name validation
+    // Existing validations
     if (!formData.fullName.trim()) {
       newErrors.fullName = 'Full name is required';
     }
 
-    // Email validation
     if (!formData.email) {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email';
     }
     
-    // Password validation
     if (!formData.password) {
       newErrors.password = 'Password is required';
     } else if (formData.password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters';
     }
 
-    // Confirm password validation
     if (!formData.confirmPassword) {
       newErrors.confirmPassword = 'Please confirm your password';
     } else if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
+    }
+    
+    // New address validations
+    if (!formData.address.trim()) {
+      newErrors.address = 'Address is required';
+    }
+
+    if (!formData.city.trim()) {
+      newErrors.city = 'City is required';
+    }
+
+    if (!formData.pincode.trim()) {
+      newErrors.pincode = 'Pincode is required';
+    } else if (!/^\d{6}$/.test(formData.pincode)) {
+      newErrors.pincode = 'Pincode must be 6 digits';
     }
     
     return newErrors;
@@ -104,6 +119,7 @@ const Register = () => {
           </div>
           
           <form onSubmit={handleSubmit} className="register-form">
+            {/* Existing fields */}
             <div className="form-group">
               <label htmlFor="fullName">Full Name</label>
               <input
@@ -132,6 +148,7 @@ const Register = () => {
               {errors.email && <span className="error-message">{errors.email}</span>}
             </div>
             
+            {/* Password fields remain the same */}
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <div className="password-input">
@@ -188,6 +205,53 @@ const Register = () => {
               {errors.confirmPassword && (
                 <span className="error-message">{errors.confirmPassword}</span>
               )}
+            </div>
+
+            {/* New address fields */}
+            <div className="form-group">
+              <label htmlFor="address">Home Address</label>
+              <input
+                id="address"
+                name="address"
+                type="text"
+                value={formData.address}
+                onChange={handleChange}
+                disabled={isLoading}
+                className={errors.address ? 'error' : ''}
+                placeholder="Enter your full address"
+              />
+              {errors.address && <span className="error-message">{errors.address}</span>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="city">City</label>
+              <input
+                id="city"
+                name="city"
+                type="text"
+                value={formData.city}
+                onChange={handleChange}
+                disabled={isLoading}
+                className={errors.city ? 'error' : ''}
+                placeholder="Enter your city"
+              />
+              {errors.city && <span className="error-message">{errors.city}</span>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="pincode">Pincode</label>
+              <input
+                id="pincode"
+                name="pincode"
+                type="text"
+                value={formData.pincode}
+                onChange={handleChange}
+                disabled={isLoading}
+                className={errors.pincode ? 'error' : ''}
+                placeholder="Enter 6-digit pincode"
+                maxLength={6}
+              />
+              {errors.pincode && <span className="error-message">{errors.pincode}</span>}
             </div>
 
             <div className="terms-section">

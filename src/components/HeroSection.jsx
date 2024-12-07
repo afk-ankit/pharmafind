@@ -30,15 +30,11 @@ const HeroSection = () => {
     );
   };
 
-  const handleSearch = () => {
+  const handleSearch = (e) => {
+    e.preventDefault(); // Prevent form submission
     if (isSearchEnabled) {
-      navigate('/search', {
-        state: {
-          medicineName,
-          pincode,
-          includeOffline
-        }
-      });
+      // Navigate with query parameters
+      navigate(`/search?medicine=${encodeURIComponent(medicineName)}&pincode=${pincode}&offline=${includeOffline}`);
     }
   };
 
@@ -50,9 +46,9 @@ const HeroSection = () => {
     <div className="hero-section">
       <div className="hero-content">
         <h1 className="main-title">Your trusted Medicine finding App</h1>
-        <p className="customer-count">100k+ Satisfied Customers</p>
+        <p className="customer-count">Meds made simple.</p>
         
-        <div className="search-container">
+        <form onSubmit={handleSearch} className="search-container">
           <div className="search-box">
             <div className="input-group">
               <input 
@@ -61,6 +57,7 @@ const HeroSection = () => {
                 className="search-input"
                 value={medicineName}
                 onChange={handleMedicineNameChange}
+                required
               />
               <input 
                 type="text" 
@@ -68,10 +65,12 @@ const HeroSection = () => {
                 className="search-input"
                 value={pincode}
                 onChange={handlePincodeChange}
+                pattern="\d{6}"
+                required
               />
               <button 
+                type="submit"
                 className="search-button"
-                onClick={handleSearch}
                 disabled={!isSearchEnabled}
               >
                 <span>Search</span>
@@ -84,11 +83,11 @@ const HeroSection = () => {
                   checked={includeOffline}
                   onChange={handleOfflineCheckboxChange}
                 />
-                <span>Include offline results</span>
+                <span>Include online results</span>
               </label>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

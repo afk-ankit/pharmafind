@@ -129,19 +129,9 @@ const Login = () => {
               {errors.password && <span className="error-message">{errors.password}</span>}
             </div>
 
-            <div className="form-options">
-              <div className="remember-me">
-                <input
-                  type="checkbox"
-                  id="remember-me"
-                  disabled={isLoading}
-                />
-                <label htmlFor="remember-me">Remember me</label>
-              </div>
-              <Link to="/forgot-password" className="forgot-password">
-                Forgot your password?
-              </Link>
-            </div>
+            <Link to="/forgot-password" className="forgot-password">
+              Forgot your password?
+            </Link>
 
             <button
               type="submit"

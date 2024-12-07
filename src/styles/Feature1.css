@@ -1,97 +1,157 @@
+:root {
+  --primary-color: #007bff;
+  --dark-blue: #0056b3;
+  --light-gray: #f5f5f5;
+  --text-dark: #333;
+  --text-light: #666;
+  --white: #fff;
+  --yellow: #ffff00;
+}
+
 .features-section {
-    display: flex;
-    flex-direction: column;
-    padding: 40px 20px;
-    background-color: #f8f9fc;
-  }
-  
-  /* Feature Cards */
-  .features-container {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 40px;
-  }
-  
-  .feature-card {
-    flex: 1;
-    text-align: center;
-    padding: 20px;
-    margin: 0 10px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .feature-card .icon {
-    font-size: 36px;
-    color: #4b7bec;
-    margin-bottom: 10px;
-  }
-  
-  .feature-card h4 {
-    font-size: 18px;
-    font-weight: 700;
-    margin: 10px 0;
-  }
-  
-  .feature-card p {
-    font-size: 14px;
-    color: #7b7b7b;
-  }
-  
-  /* Promo Banners */
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 1rem;
+}
+
+.features-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.feature-card {
+  flex: 1 1 250px;
+  background-color: #f5f5f5;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.icon-container {
+  width: 4rem;
+  height: 4rem;
+  background-color: #007bff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.feature-card:hover .icon-container {
+  background-color: #0056b3;
+}
+
+.icon {
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.feature-card h4 {
+  margin: 0 0 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.feature-card p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.promo-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 2.5rem auto 0;
+}
+
+.promo-card {
+  color: var(--white);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.promo-card.blue {
+  background-color: var(--primary-color);
+}
+
+.promo-card.dark-blue {
+  background-color: var(--dark-blue);
+}
+
+.promo-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(-45deg);
+  z-index: 0;
+}
+
+.promo-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.promo-card h3 {
+  margin: 0 0 1rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.promo-card h2 {
+  margin: 0 0 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.promo-card h2 span {
+  color: var(--yellow);
+}
+
+.promo-card p {
+  margin: 0 0 1rem;
+  font-size: 0.875rem;
+}
+
+.shop-now {
+  background-color: var(--white);
+  color: var(--primary-color);
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.shop-now:hover {
+  background-color: var(--primary-color);
+  color: var(--white);
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
   .promo-container {
-    display: flex;
-    gap: 20px;
+    grid-template-columns: 1fr;
   }
-  
-  .promo-card {
-    flex: 1;
-    padding: 20px;
-    border-radius: 8px;
-    color: #ffffff;
-    position: relative;
-  }
-  
-  .promo-card.blue {
-    background-color: #4b7bec;
-  }
-  
-  .promo-card.dark-blue {
-    background-color: #2d3e50;
-  }
-  
-  .promo-card h3 {
-    font-size: 16px;
-    margin-bottom: 10px;
-  }
-  
-  .promo-card h2 {
-    font-size: 24px;
-    margin: 10px 0;
-  }
-  
-  .promo-card h2 span {
-    color: #ffcc00;
-    font-weight: 700;
-  }
-  
-  .promo-card p {
-    font-size: 14px;
-    color: #f0f0f0;
-  }
-  
-  .shop-now {
-    background-color: #ffcc00;
-    color: #000;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 20px;
-  }
-  
-  .shop-now:hover {
-    background-color: #e0b800;
-  }
-  
+}

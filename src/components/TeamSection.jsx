@@ -2,6 +2,9 @@ import React from "react";
 import Slider from "react-slick";
 import "../styles/TeamSection.css";
 
+import "../assets/emily.jpg";
+
+
 // Sample team data
 const teamMembers = [
   {
@@ -9,7 +12,7 @@ const teamMembers = [
     name: "Dr. Emily Roberts, PharmD",
     position: "Chief Pharmacist",
     experience: "Work experience - 15 years",
-    image: "vite.svg", // Replace with actual image path
+    image: "../assets/emily.jpg", // Replace with actual image path
   },
   {
     id: 2,

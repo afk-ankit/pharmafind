@@ -12,7 +12,7 @@ const Footer = () => {
             <span className="store-text">store</span>
           </div>
         </div>
-
+        
         <div className="footer-content">
           <div className="footer-section">
             <h3>Company</h3>
@@ -23,7 +23,7 @@ const Footer = () => {
               <li><a href="/blog">Blog & News</a></li>
             </ul>
           </div>
-
+          
           <div className="footer-section">
             <h3>Resources</h3>
             <ul>
@@ -33,20 +33,62 @@ const Footer = () => {
               <li><a href="/medication-guides">Medication Guides</a></li>
             </ul>
           </div>
-
+          
           <div className="footer-section">
             <h3>Follow Our Social Media</h3>
             <div className="social-links">
-              <a href="#" className="social-button">Instagram</a>
-              <a href="#" className="social-button">Youtube</a>
-              <a href="#" className="social-button">Facebook</a>
-              <a href="#" className="social-button">LinkedIn</a>
-              <a href="#" className="social-button">Twitter</a>
-              <a href="#" className="social-button">Tik Tok</a>
+              <a 
+                href="https://www.instagram.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="social-button"
+              >
+                Instagram
+              </a>
+              <a 
+                href="https://www.youtube.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="social-button"
+              >
+                Youtube
+              </a>
+              <a 
+                href="https://www.facebook.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="social-button"
+              >
+                Facebook
+              </a>
+              <a 
+                href="https://www.linkedin.com/company" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="social-button"
+              >
+                LinkedIn
+              </a>
+              <a 
+                href="https://www.twitter.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="social-button"
+              >
+                Twitter
+              </a>
+              <a 
+                href="https://www.tiktok.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="social-button"
+              >
+                Tik Tok
+              </a>
             </div>
           </div>
         </div>
-
+        
         <div className="footer-bottom">
           <p>Copyright © 2024 PharmaFind | Design by Praptipriyaph</p>
           <div className="footer-links">

@@ -7,24 +7,32 @@ const Feature1 = () => {
       <div className="features-container">
         {/* Feature Cards */}
         <div className="feature-card">
-          <i className="icon">🚚</i>
-          <h4>Free Shipping</h4>
-          <p>Order Over $600</p>
+          <div className="icon-container">
+            <i className="icon">💰</i>
+          </div>
+          <h4>Lowest Price Guarantee</h4>
+          <p>Find the best deals online and offline</p>
         </div>
         <div className="feature-card">
-          <i className="icon">💳</i>
-          <h4>Quick Payment</h4>
-          <p>100% Secure</p>
+          <div className="icon-container">
+            <i className="icon">✅</i>
+          </div>
+          <h4>Verified Vendors</h4>
+          <p>Trusted sellers for your safety</p>
         </div>
         <div className="feature-card">
-          <i className="icon">💸</i>
-          <h4>Big Cashback</h4>
-          <p>Over 50% Cashback</p>
-        </div>
-        <div className="feature-card">
-          <i className="icon">📞</i>
+          <div className="icon-container">
+            <i className="icon">📞</i>
+          </div>
           <h4>24/7 Support</h4>
-          <p>Ready for You</p>
+          <p>Ready to assist you anytime</p>
+        </div>
+        <div className="feature-card">
+          <div className="icon-container">
+            <i className="icon">🔍</i>
+          </div>
+          <h4>Comprehensive Inventory</h4>
+          <p>Wide selection of medicines</p>
         </div>
       </div>
 
