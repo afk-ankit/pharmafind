@@ -1,9 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { Search, Loader2 } from 'lucide-react';
+import { Search, Loader2, MapPin, Globe } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import '../styles/SearchResults.css';
+
+// Mock data structure to simulate medicine availability
+const medicineDatabase = [
+  // Offline Pharmacies
+  {
+    id: 1,
+    title: 'Paracetamol',
+    description: 'Fever and pain relief medicine',
+    type: 'offline',
+    pharmacyName: 'Local Pharmacy',
+    price: 5.99,
+    pincode: '560001',
+    address: '123 Main Street, Bangalore'
+  },
+  {
+    id: 2,
+    title: 'Paracetamol',
+    description: 'Fever and pain relief medicine',
+    type: 'offline',
+    pharmacyName: 'City Medicals',
+    price: 6.50,
+    pincode: '560001',
+    address: '456 Park Road, Bangalore'
+  },
+  {
+    id: 3,
+    title: 'Paracetamol',
+    description: 'Fever and pain relief medicine',
+    type: 'online',
+    pharmacyName: 'MedEasy',
+    price: 4.99,
+    pincode: '560001',
+    websiteUrl: 'https://medeasy.com'
+  },
+  {
+    id: 4,
+    title: 'Paracetamol',
+    description: 'Fever and pain relief medicine',
+    type: 'online',
+    pharmacyName: 'QuickMeds',
+    price: 5.49,
+    pincode: '560001',
+    websiteUrl: 'https://quickmeds.com'
+  }
+];
 
 const SearchResults = () => {
   const navigate = useNavigate();
@@ -13,39 +58,10 @@ const SearchResults = () => {
   const [currentSearch, setCurrentSearch] = useState({
     medicine: searchParams.get('medicine') || '',
     pincode: searchParams.get('pincode') || '',
-    includeOffline: searchParams.get('offline') === 'true'
+    includeOnline: searchParams.get('online') === 'true'
   });
 
-  // Predefined dummy data
-  const dummyResults = [
-    {
-      id: 1,
-      title: 'Paracetamol',
-      description: 'Fever and pain relief medicine',
-      category: 'Medicine',
-      price: '$5.99',
-      pincode: '560001'
-    },
-    {
-      id: 2,
-      title: 'Aspirin',
-      description: 'Pain and inflammation reducer',
-      category: 'Medicine',
-      price: '$4.50',
-      pincode: '560002'
-    },
-    {
-      id: 3,
-      title: 'Ibuprofen',
-      description: 'Nonsteroidal anti-inflammatory drug',
-      category: 'Medicine',
-      price: '$6.25',
-      pincode: '560003'
-    }
-  ];
-
   useEffect(() => {
-    // Perform search when component mounts or search params change
     if (currentSearch.medicine && currentSearch.pincode) {
       performSearch();
     }
@@ -54,16 +70,20 @@ const SearchResults = () => {
   const performSearch = () => {
     setIsLoading(true);
 
-    // Filter results based on exact medicine name and pincode
-    const filteredResults = dummyResults.filter(
+    // Filter results based on medicine name and pincode
+    const filteredResults = medicineDatabase.filter(
       (result) =>
         result.title.toLowerCase() === currentSearch.medicine.toLowerCase() &&
-        result.pincode === currentSearch.pincode
+        result.pincode === currentSearch.pincode &&
+        (currentSearch.includeOnline ? true : result.type === 'offline')
     );
+
+    // Sort results by price
+    const sortedResults = filteredResults.sort((a, b) => a.price - b.price);
 
     // Simulate API delay
     setTimeout(() => {
-      setSearchResults(filteredResults);
+      setSearchResults(sortedResults);
       setIsLoading(false);
     }, 1000);
   };
@@ -73,7 +93,7 @@ const SearchResults = () => {
 
     // Navigate to search with new parameters
     navigate(
-      `/search?medicine=${currentSearch.medicine}&pincode=${currentSearch.pincode}&offline=${currentSearch.includeOffline}`
+      `/search?medicine=${currentSearch.medicine}&pincode=${currentSearch.pincode}&online=${currentSearch.includeOnline}`
     );
   };
 
@@ -85,10 +105,10 @@ const SearchResults = () => {
           {/* Header Section */}
           <header className="search-header">
             <div className="header-content">
-              <h1>Search Results</h1>
+              <h1>Medicine Availability</h1>
               <div className="search-info">
                 <span className="results-count">
-                  Found {searchResults.length} items
+                  Found {searchResults.length} {currentSearch.includeOnline ? 'total' : 'offline'} options
                 </span>
                 {currentSearch.pincode && (
                   <span className="pincode-info">
@@ -103,39 +123,58 @@ const SearchResults = () => {
           <main className="search-main">
             {/* Search Bar */}
             <form onSubmit={handleNewSearch} className="search-bar-container">
-              <div className="relative w-full">
-                <input
-                  type="text"
-                  placeholder="Search medicines..."
-                  value={currentSearch.medicine}
-                  onChange={(e) =>
-                    setCurrentSearch((prev) => ({
-                      ...prev,
-                      medicine: e.target.value
-                    }))
-                  }
-                  className="search-input pr-12 w-full"
-                  required
-                />
-
+              <div className="flex gap-4">
+                <div className="w-full">
+                  <input
+                    type="text"
+                    placeholder="Search medicines..."
+                    value={currentSearch.medicine}
+                    onChange={(e) =>
+                      setCurrentSearch((prev) => ({
+                        ...prev,
+                        medicine: e.target.value
+                      }))
+                    }
+                    className="search-input w-full"
+                    required
+                  />
+                </div>
+                <div className="w-full">
+                  <input
+                    type="text"
+                    placeholder="Enter pincode"
+                    value={currentSearch.pincode}
+                    onChange={(e) =>
+                      setCurrentSearch((prev) => ({
+                        ...prev,
+                        pincode: e.target.value
+                      }))
+                    }
+                    className="search-input w-full"
+                    pattern="\d{6}"
+                    required
+                  />
+                </div>
               </div>
-              <input
-                type="text"
-                placeholder="Enter pincode"
-                value={currentSearch.pincode}
-                onChange={(e) =>
-                  setCurrentSearch((prev) => ({
-                    ...prev,
-                    pincode: e.target.value
-                  }))
-                }
-                className="search-input w-full mt-4"
-                pattern="\d{6}"
-                required
-              />
-              <button type="submit" className="add-to-cart-btn">
-                Search
-              </button>
+              <div className="flex items-center mt-4">
+                <label className="inline-flex items-center mr-4">
+                  <input
+                    type="checkbox"
+                    checked={currentSearch.includeOnline}
+                    onChange={() =>
+                      setCurrentSearch((prev) => ({
+                        ...prev,
+                        includeOnline: !prev.includeOnline
+                      }))
+                    }
+                    className="form-checkbox"
+                  />
+                  <span className="ml-2">Include Online Results</span>
+                </label>
+                <button type="submit" className="search-btn ml-auto">
+                  Search
+                </button>
+              </div>
             </form>
 
             {/* Loading State */}
@@ -147,16 +186,48 @@ const SearchResults = () => {
 
             {/* Results Grid */}
             {!isLoading && (
-              <div className="results-grid">
+              <div className="results-grid grid gap-4">
                 {searchResults.map((result) => (
-                  <div key={result.id} className="result-card">
+                  <div 
+                    key={result.id} 
+                    className={`result-card ${
+                      result.type === 'offline' 
+                        ? 'border-green-500 bg-green-50' 
+                        : 'border-blue-500 bg-blue-50'
+                    }`}
+                  >
                     <div className="card-content">
-                      <span className="category-tag">{result.category}</span>
-                      <h2 className="product-title">{result.title}</h2>
+                      <div className="flex justify-between">
+                        <span className="category-tag flex items-center">
+                          {result.type === 'offline' ? (
+                            <MapPin className="mr-2 w-4 h-4" />
+                          ) : (
+                            <Globe className="mr-2 w-4 h-4" />
+                          )}
+                          {result.type.charAt(0).toUpperCase() + result.type.slice(1)}
+                        </span>
+                        <span className="product-price font-bold">
+                          ${result.price.toFixed(2)}
+                        </span>
+                      </div>
+                      <h2 className="product-title mt-2">{result.title}</h2>
                       <p className="product-description">{result.description}</p>
-                      <div className="card-footer">
-                        <span className="product-price">{result.price}</span>
-                        <button className="add-to-cart-btn">Add to Cart</button>
+                      <div className="card-footer mt-4">
+                        <div className="pharmacy-info">
+                          <strong>{result.pharmacyName}</strong>
+                          {result.type === 'offline' ? (
+                            <p>{result.address}</p>
+                          ) : (
+                            <a 
+                              href={result.websiteUrl} 
+                              target="_blank" 
+                              rel="noopener noreferrer" 
+                              className="text-blue-600 hover:underline"
+                            >
+                              Visit Website
+                            </a>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -166,14 +237,15 @@ const SearchResults = () => {
 
             {/* Empty State */}
             {!isLoading && searchResults.length === 0 && (
-              <div className="empty-state">
-                <h3>No Results Found</h3>
-                <p>
-                  Try searching for: Paracetamol, Aspirin, or Ibuprofen
-                </p>
-                <p>
-                  And use corresponding pincodes: 560001, 560002, or 560003
-                </p>
+              <div className="empty-state text-center p-8 bg-gray-100 rounded-lg">
+                <h3 className="text-xl font-semibold mb-4">No Results Found</h3>
+                <div>
+                  <p className="mb-2">Try searching for:</p>
+                  <ul className="list-disc list-inside">
+                    <li>Medicine: Paracetamol</li>
+                    <li>Pincode: 560001</li>
+                  </ul>
+                </div>
               </div>
             )}
           </main>
