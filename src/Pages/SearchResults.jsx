@@ -1,52 +1,70 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { Search, Loader2, MapPin, Globe } from 'lucide-react';
+import { 
+  MapPin, 
+  Globe, 
+  Loader2, 
+  Search, 
+  ChevronRight, 
+  PhoneCall, 
+  Clock, 
+  Tag 
+} from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import '../styles/SearchResults.css';
 
-// Mock data structure to simulate medicine availability
+// Refined Mock Database
 const medicineDatabase = [
-  // Offline Pharmacies
   {
     id: 1,
     title: 'Paracetamol',
-    description: 'Fever and pain relief medicine',
+    description: '500mg - Fever and pain relief',
     type: 'offline',
-    pharmacyName: 'Local Pharmacy',
+    pharmacyName: 'Local Health Pharmacy',
     price: 5.99,
     pincode: '560001',
-    address: '123 Main Street, Bangalore'
+    address: '123 Main Street, Bangalore',
+    contact: '080-22334455',
+    stock: 'Available',
+    distance: '2.3 km'
   },
   {
     id: 2,
     title: 'Paracetamol',
-    description: 'Fever and pain relief medicine',
+    description: '650mg - Extended relief',
     type: 'offline',
-    pharmacyName: 'City Medicals',
+    pharmacyName: 'City Medical Store',
     price: 6.50,
     pincode: '560001',
-    address: '456 Park Road, Bangalore'
+    address: '456 Park Road, Bangalore',
+    contact: '080-44556677',
+    stock: 'Low Stock',
+    distance: '4.5 km'
   },
   {
     id: 3,
     title: 'Paracetamol',
-    description: 'Fever and pain relief medicine',
+    description: 'Digital Pharmacy Option',
     type: 'online',
-    pharmacyName: 'MedEasy',
+    pharmacyName: 'MedEasy Online',
     price: 4.99,
     pincode: '560001',
-    websiteUrl: 'https://medeasy.com'
+    websiteUrl: 'https://medeasy.com',
+    deliveryTime: '1-2 days',
+    discount: '10% OFF'
   },
   {
     id: 4,
     title: 'Paracetamol',
-    description: 'Fever and pain relief medicine',
+    description: 'Nationwide Delivery',
     type: 'online',
-    pharmacyName: 'QuickMeds',
+    pharmacyName: 'QuickMeds Digital',
     price: 5.49,
     pincode: '560001',
-    websiteUrl: 'https://quickmeds.com'
+    websiteUrl: 'https://quickmeds.com',
+    deliveryTime: '2-3 days',
+    discount: '5% OFF'
   }
 ];
 
@@ -54,7 +72,8 @@ const SearchResults = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
-  const [searchResults, setSearchResults] = useState([]);
+  const [offlineResults, setOfflineResults] = useState([]);
+  const [onlineResults, setOnlineResults] = useState([]);
   const [currentSearch, setCurrentSearch] = useState({
     medicine: searchParams.get('medicine') || '',
     pincode: searchParams.get('pincode') || '',
@@ -69,186 +88,295 @@ const SearchResults = () => {
 
   const performSearch = () => {
     setIsLoading(true);
-
-    // Filter results based on medicine name and pincode
+  
     const filteredResults = medicineDatabase.filter(
       (result) =>
         result.title.toLowerCase() === currentSearch.medicine.toLowerCase() &&
-        result.pincode === currentSearch.pincode &&
-        (currentSearch.includeOnline ? true : result.type === 'offline')
+        result.pincode === currentSearch.pincode
     );
-
-    // Sort results by price
-    const sortedResults = filteredResults.sort((a, b) => a.price - b.price);
-
-    // Simulate API delay
+  
+    const offline = filteredResults
+      .filter(result => result.type === 'offline')
+      .sort((a, b) => a.price - b.price);
+  
+    // Only add online results if includeOnline is true
+    const online = currentSearch.includeOnline 
+      ? filteredResults
+          .filter(result => result.type === 'online')
+          .sort((a, b) => a.price - b.price)
+      : [];
+  
     setTimeout(() => {
-      setSearchResults(sortedResults);
+      setOfflineResults(offline);
+      setOnlineResults(online);
       setIsLoading(false);
     }, 1000);
   };
 
   const handleNewSearch = (e) => {
     e.preventDefault();
-
-    // Navigate to search with new parameters
     navigate(
       `/search?medicine=${currentSearch.medicine}&pincode=${currentSearch.pincode}&online=${currentSearch.includeOnline}`
     );
   };
 
+  const ResultCard = ({ result, type }) => (
+    <div className={`
+      bg-white border rounded-lg shadow-sm overflow-hidden 
+      transition-all duration-300 hover:shadow-md mb-4
+      ${type === 'offline' 
+        ? 'border-green-200 hover:border-green-300' 
+        : 'border-blue-200 hover:border-blue-300'
+      }
+    `}>
+      <div className={`
+        px-4 py-3 flex justify-between items-center 
+        ${type === 'offline' 
+          ? 'bg-green-50' 
+          : 'bg-blue-50'
+        }
+      `}>
+        <div className="flex items-center">
+          {type === 'offline' ? (
+            <MapPin className="text-green-600 mr-2" size={20} />
+          ) : (
+            <Globe className="text-blue-600 mr-2" size={20} />
+          )}
+          <h3 className="text-base font-semibold">{result.pharmacyName}</h3>
+        </div>
+        <div className="flex items-center">
+          <span className="font-bold text-lg text-green-700 mr-2">
+            ${result.price.toFixed(2)}
+          </span>
+          <ChevronRight className="text-gray-400" size={16} />
+        </div>
+      </div>
+      
+      <div className="px-4 py-3">
+        <div className="mb-2">
+          <h4 className="text-sm font-medium text-gray-700">{result.title}</h4>
+          <p className="text-xs text-gray-500">{result.description}</p>
+        </div>
+
+        {type === 'offline' ? (
+          <div className="grid grid-cols-2 gap-2 text-xs">
+            <div className="flex items-center text-gray-600">
+              <PhoneCall className="mr-1" size={12} />
+              {result.contact}
+            </div>
+            <div className="flex items-center text-gray-600">
+              <MapPin className="mr-1" size={12} />
+              {result.distance}
+            </div>
+            <div className={`
+              inline-block px-2 py-1 rounded 
+              ${result.stock === 'Available' 
+                ? 'bg-green-100 text-green-800' 
+                : 'bg-yellow-100 text-yellow-800'
+              }
+            `}>
+              {result.stock}
+            </div>
+          </div>
+        ) : (
+          <div className="flex justify-between items-center text-xs">
+            <div className="flex items-center text-gray-600">
+              <Clock className="mr-1" size={12} />
+              {result.deliveryTime}
+            </div>
+            <div className="flex items-center text-blue-600">
+              <Tag className="mr-1" size={12} />
+              {result.discount}
+            </div>
+            <a 
+              href={result.websiteUrl} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="
+                bg-blue-500 text-white px-2 py-1 rounded 
+                hover:bg-blue-600 transition-colors text-xs
+              "
+            >
+              Visit
+            </a>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navbar />
-      <div className="pt-20 flex-grow container mx-auto px-4">
-        <div className="search-results-container">
-          {/* Header Section */}
-          <header className="search-header">
-            <div className="header-content">
-              <h1>Medicine Availability</h1>
-              <div className="search-info">
-                <span className="results-count">
-                  Found {searchResults.length} {currentSearch.includeOnline ? 'total' : 'offline'} options
-                </span>
-                {currentSearch.pincode && (
-                  <span className="pincode-info">
-                    in {currentSearch.pincode}
-                  </span>
-                )}
+      <div className="container mx-auto px-4 py-8 flex-grow">
+        <div className="max-w-xl mx-auto">
+          {/* Search Form */}
+          <form 
+            onSubmit={handleNewSearch} 
+            className="
+              bg-white border border-gray-200 rounded-lg 
+              shadow-sm mb-6 p-5
+            "
+          >
+            <div className="grid md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label 
+                  htmlFor="medicine" 
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  Medicine Name
+                </label>
+                <input
+                  id="medicine"
+                  type="text"
+                  placeholder="e.g., Paracetamol"
+                  value={currentSearch.medicine}
+                  onChange={(e) => setCurrentSearch(prev => ({
+                    ...prev, 
+                    medicine: e.target.value
+                  }))}
+                  className="
+                    w-full px-3 py-2 border border-gray-300 
+                    rounded-md focus:outline-none focus:ring-2 
+                    focus:ring-blue-500
+                  "
+                  required
+                />
+              </div>
+              <div>
+                <label 
+                  htmlFor="pincode" 
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  Pincode
+                </label>
+                <input
+                  id="pincode"
+                  type="text"
+                  placeholder="e.g., 560001"
+                  value={currentSearch.pincode}
+                  onChange={(e) => setCurrentSearch(prev => ({
+                    ...prev, 
+                    pincode: e.target.value
+                  }))}
+                  className="
+                    w-full px-3 py-2 border border-gray-300 
+                    rounded-md focus:outline-none focus:ring-2 
+                    focus:ring-blue-500
+                  "
+                  required
+                />
               </div>
             </div>
-          </header>
+            <div className="flex items-center justify-between">
+              <label className="inline-flex items-center">
+                <input
+                  type="checkbox"
+                  checked={currentSearch.includeOnline}
+                  onChange={() => setCurrentSearch(prev => ({
+                    ...prev, 
+                    includeOnline: !prev.includeOnline
+                  }))}
+                  className="
+                    form-checkbox text-blue-600 
+                    focus:ring-blue-500
+                  "
+                />
+                <span className="ml-2 text-sm text-gray-700">
+                  Include Online Pharmacies
+                </span>
+              </label>
+              <button 
+                type="submit" 
+                className="
+                  bg-blue-500 text-white px-4 py-2 
+                  rounded-md hover:bg-blue-600 
+                  focus:outline-none focus:ring-2 
+                  focus:ring-blue-500 focus:ring-offset-2
+                "
+              >
+                Search
+              </button>
+            </div>
+          </form>
 
-          {/* Main Content */}
-          <main className="search-main">
-            {/* Search Bar */}
-            <form onSubmit={handleNewSearch} className="search-bar-container">
-              <div className="flex gap-4">
-                <div className="w-full">
-                  <input
-                    type="text"
-                    placeholder="Search medicines..."
-                    value={currentSearch.medicine}
-                    onChange={(e) =>
-                      setCurrentSearch((prev) => ({
-                        ...prev,
-                        medicine: e.target.value
-                      }))
-                    }
-                    className="search-input w-full"
-                    required
-                  />
-                </div>
-                <div className="w-full">
-                  <input
-                    type="text"
-                    placeholder="Enter pincode"
-                    value={currentSearch.pincode}
-                    onChange={(e) =>
-                      setCurrentSearch((prev) => ({
-                        ...prev,
-                        pincode: e.target.value
-                      }))
-                    }
-                    className="search-input w-full"
-                    pattern="\d{6}"
-                    required
-                  />
-                </div>
-              </div>
-              <div className="flex items-center mt-4">
-                <label className="inline-flex items-center mr-4">
-                  <input
-                    type="checkbox"
-                    checked={currentSearch.includeOnline}
-                    onChange={() =>
-                      setCurrentSearch((prev) => ({
-                        ...prev,
-                        includeOnline: !prev.includeOnline
-                      }))
-                    }
-                    className="form-checkbox"
-                  />
-                  <span className="ml-2">Include Online Results</span>
-                </label>
-                <button type="submit" className="search-btn ml-auto">
-                  Search
-                </button>
-              </div>
-            </form>
+          {/* Loading State */}
+          {isLoading && (
+            <div className="text-center py-8">
+              <Loader2 className="mx-auto animate-spin text-blue-500" size={48} />
+              <p className="mt-4 text-gray-600">Searching pharmacies...</p>
+            </div>
+          )}
 
-            {/* Loading State */}
-            {isLoading && (
-              <div className="loading-container">
-                <Loader2 className="loading-spinner animate-spin" />
-              </div>
-            )}
-
-            {/* Results Grid */}
-            {!isLoading && (
-              <div className="results-grid grid gap-4">
-                {searchResults.map((result) => (
-                  <div 
-                    key={result.id} 
-                    className={`result-card ${
-                      result.type === 'offline' 
-                        ? 'border-green-500 bg-green-50' 
-                        : 'border-blue-500 bg-blue-50'
-                    }`}
-                  >
-                    <div className="card-content">
-                      <div className="flex justify-between">
-                        <span className="category-tag flex items-center">
-                          {result.type === 'offline' ? (
-                            <MapPin className="mr-2 w-4 h-4" />
-                          ) : (
-                            <Globe className="mr-2 w-4 h-4" />
-                          )}
-                          {result.type.charAt(0).toUpperCase() + result.type.slice(1)}
-                        </span>
-                        <span className="product-price font-bold">
-                          ${result.price.toFixed(2)}
-                        </span>
-                      </div>
-                      <h2 className="product-title mt-2">{result.title}</h2>
-                      <p className="product-description">{result.description}</p>
-                      <div className="card-footer mt-4">
-                        <div className="pharmacy-info">
-                          <strong>{result.pharmacyName}</strong>
-                          {result.type === 'offline' ? (
-                            <p>{result.address}</p>
-                          ) : (
-                            <a 
-                              href={result.websiteUrl} 
-                              target="_blank" 
-                              rel="noopener noreferrer" 
-                              className="text-blue-600 hover:underline"
-                            >
-                              Visit Website
-                            </a>
-                          )}
-                        </div>
-                      </div>
-                    </div>
+          {/* Results Section */}
+          {!isLoading && (
+            <div className="space-y-6">
+              {/* Offline Results Section */}
+              {offlineResults.length > 0 && (
+                <div className="bg-white rounded-lg shadow-sm border border-green-100">
+                  <div className="bg-green-50 px-4 py-3 border-b border-green-100 flex items-center">
+                    <MapPin className="mr-2 text-green-600" size={24} />
+                    <h2 className="text-lg font-bold text-green-800">
+                      Nearby Pharmacies
+                    </h2>
                   </div>
-                ))}
-              </div>
-            )}
-
-            {/* Empty State */}
-            {!isLoading && searchResults.length === 0 && (
-              <div className="empty-state text-center p-8 bg-gray-100 rounded-lg">
-                <h3 className="text-xl font-semibold mb-4">No Results Found</h3>
-                <div>
-                  <p className="mb-2">Try searching for:</p>
-                  <ul className="list-disc list-inside">
-                    <li>Medicine: Paracetamol</li>
-                    <li>Pincode: 560001</li>
-                  </ul>
+                  <div className="p-4 space-y-4">
+                    {offlineResults.map(result => (
+                      <ResultCard 
+                        key={result.id} 
+                        result={result} 
+                        type="offline" 
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
-          </main>
+              )}
+
+              {/* Online Results Section */}
+              {onlineResults.length > 0 && (
+                <div className="bg-white rounded-lg shadow-sm border border-blue-100">
+                  <div className="bg-blue-50 px-4 py-3 border-b border-blue-100 flex items-center">
+                    <Globe className="mr-2 text-blue-600" size={24} />
+                    <h2 className="text-lg font-bold text-blue-800">
+                      Online Pharmacies
+                    </h2>
+                  </div>
+                  <div className="p-4 space-y-4">
+                    {onlineResults.map(result => (
+                      <ResultCard 
+                        key={result.id} 
+                        result={result} 
+                        type="online" 
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Empty State */}
+              {offlineResults.length === 0 && onlineResults.length === 0 && (
+                <div className="
+                  text-center bg-white border border-gray-200 
+                  rounded-lg p-8 shadow-sm
+                ">
+                  <h3 className="text-lg font-semibold mb-4 text-gray-700">
+                    No Results Found
+                  </h3>
+                  <p className="text-gray-500 mb-4">
+                    Try searching for Paracetamol in pincode 560001
+                  </p>
+                  <div className="flex justify-center space-x-2">
+                    <span className="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-sm">
+                      Paracetamol
+                    </span>
+                    <span className="bg-green-50 text-green-600 px-3 py-1 rounded-full text-sm">
+                      560001
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
       <Footer />
