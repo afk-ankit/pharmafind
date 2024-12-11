@@ -1,7 +1,7 @@
 .hero-section {
   position: relative;
   min-height: 600px;
-  background-image: url('/src/assets/logo.png');
+  background-image: url("/src/assets/logo.png");
   background-size: cover;
   background-position: center;
   padding: 40px 20px;
@@ -12,7 +12,7 @@
 }
 
 .hero-section::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -48,13 +48,11 @@
   color: white;
 }
 
-
 .customer-count {
   font-size: 1.2rem;
   margin-bottom: 2rem;
   color: white;
 }
-
 
 .search-container {
   max-width: 800px;
@@ -64,7 +62,7 @@
 .search-box {
   background: rgba(13, 27, 42, 0.8);
   padding: 2rem;
-  border-radius: 8px;
+  border-radius: 20px;
 }
 
 .input-group {

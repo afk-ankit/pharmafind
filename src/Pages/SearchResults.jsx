@@ -1,10 +1,10 @@
+// src/pages/SearchResults.jsx
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import {
   MapPin,
   Globe,
   Loader2,
-  Search,
   PhoneCall,
   Clock,
   Tag
@@ -38,6 +38,19 @@ const medicineDatabase = [
     pincode: '560001',
     address: '456 Park Road, Bangalore',
     contact: '080-44556677',
+    stock: 'Low Stock',
+    distance: '4.5 km'
+  },
+  {
+    id: 3,
+    title: 'Paracetamol',
+    description: '650mg - Extended relief',
+    type: 'offline',
+    pharmacyName: 'City Store',
+    price: 7,
+    pincode: '560001',
+    address: '456 Park Road, Bangalore',
+    contact: '080',
     stock: 'Low Stock',
     distance: '4.5 km'
   },
@@ -84,7 +97,7 @@ const SearchResults = () => {
     if (currentSearch.medicine || currentSearch.pincode) {
       performSearch();
     }
-  }, [searchParams]);
+  }, [searchParams, currentSearch.includeOnline]);
 
   const performSearch = () => {
     setIsLoading(true);
@@ -193,12 +206,12 @@ const SearchResults = () => {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navbar />
-      <div className="container">
+      <div className="container mx-auto px-4 py-8">
         <form
           onSubmit={handleNewSearch}
-          className="search-form"
+          className="search-form bg-white shadow-md rounded-lg p-6 mb-6"
         >
-          <div className="search-form__grid">
+          <div className="grid md:grid-cols-2 gap-4 mb-4">
             <div>
               <label
                 htmlFor="medicine"
@@ -215,7 +228,7 @@ const SearchResults = () => {
                   ...prev,
                   medicine: e.target.value
                 }))}
-                className="search-form__input"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
             </div>
@@ -235,11 +248,11 @@ const SearchResults = () => {
                   ...prev,
                   pincode: e.target.value
                 }))}
-                className="search-form__input"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </div>
-          <div className="flex items-center justify-between mt-4">
+          <div className="flex items-center justify-between">
             <label className="inline-flex items-center">
               <input
                 type="checkbox"
@@ -248,7 +261,7 @@ const SearchResults = () => {
                   ...prev,
                   includeOnline: !prev.includeOnline
                 }))}
-                className="form-checkbox text-blue-600 focus:ring-blue-500"
+                className="form-checkbox text-blue-600 focus:ring-blue-500 h-4 w-4 rounded"
               />
               <span className="ml-2 text-sm text-gray-700">
                 Include Online Pharmacies
@@ -256,7 +269,7 @@ const SearchResults = () => {
             </label>
             <button
               type="submit"
-              className="search-form__submit"
+              className="px-4 py-2 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
             >
               Search
             </button>
@@ -265,8 +278,8 @@ const SearchResults = () => {
 
         {/* Loading State */}
         {isLoading && (
-          <div className="loading-container">
-            <Loader2 className="loading-spinner animate-spin" size={48} />
+          <div className="flex flex-col items-center justify-center py-12">
+            <Loader2 className="animate-spin text-blue-500" size={48} />
             <p className="mt-4 text-gray-600">Searching pharmacies...</p>
           </div>
         )}
@@ -276,12 +289,12 @@ const SearchResults = () => {
           <div className="space-y-6">
             {/* Offline Results Section */}
             {offlineResults.length > 0 && (
-              <div className="result-section">
-                <div className="result-section__header result-section__header--offline">
-                  <MapPin className="result-section__header-icon" size={24} />
-                  <h2>Nearby Pharmacies</h2>
+              <div className="bg-white shadow-md rounded-lg p-6">
+                <div className="flex items-center border-b pb-3 mb-4">
+                  <MapPin className="mr-2 text-blue-500" size={24} />
+                  <h2 className="text-xl font-semibold text-gray-800">Nearby Pharmacies</h2>
                 </div>
-                <div className="result-section__content">
+                <div className="grid md:grid-cols-2 gap-4">
                   {offlineResults.map(result => (
                     <ResultCard
                       key={result.id}
@@ -295,12 +308,12 @@ const SearchResults = () => {
 
             {/* Online Results Section */}
             {onlineResults.length > 0 && (
-              <div className="result-section">
-                <div className="result-section__header result-section__header--online">
-                  <Globe className="result-section__header-icon" size={24} />
-                  <h2>Online Pharmacies</h2>
+              <div className="bg-white shadow-md rounded-lg p-6">
+                <div className="flex items-center border-b pb-3 mb-4">
+                  <Globe className="mr-2 text-green-500" size={24} />
+                  <h2 className="text-xl font-semibold text-gray-800">Online Pharmacies</h2>
                 </div>
-                <div className="result-section__content">
+                <div className="grid md:grid-cols-2 gap-4">
                   {onlineResults.map(result => (
                     <ResultCard
                       key={result.id}
@@ -314,15 +327,11 @@ const SearchResults = () => {
 
             {/* Empty State */}
             {offlineResults.length === 0 && onlineResults.length === 0 && (
-              <div className="empty-state">
-                <h3 className="empty-state__title">No Results Found</h3>
-                <p className="empty-state__subtitle">
+              <div className="bg-white shadow-md rounded-lg p-12 text-center">
+                <h3 className="text-xl font-semibold text-gray-800 mb-4">No Results Found</h3>
+                <p className="text-gray-600 mb-6">
                   Try searching for Paracetamol in pincode 560001
                 </p>
-                <div className="empty-state__tags">
-                  <span className="empty-state__tag">Paracetamol</span>
-                  <span className="empty-state__tag">560001</span>
-                </div>
               </div>
             )}
           </div>
