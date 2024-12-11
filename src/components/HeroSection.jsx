@@ -25,7 +25,7 @@ const HeroSection = () => {
   const validateSearch = (medicine, pin) => {
     // Check if medicine name is not empty and pincode is exactly 6 digits
     setIsSearchEnabled(
-      medicine.trim() !== '' && 
+      medicine.trim() !== '' &&
       /^\d{6}$/.test(pin)
     );
   };
@@ -46,21 +46,21 @@ const HeroSection = () => {
     <div className="hero-section">
       <div className="hero-content">
         <h1 className="main-title">Your medicines, Better prices </h1>
-        {/* <p className="customer-count">Meds made simple.</p> */}
-        
+        <p className="customer-count">Meds made simple.</p>
+
         <form onSubmit={handleSearch} className="search-container">
           <div className="search-box">
             <div className="input-group">
-              <input 
-                type="text" 
+              <input
+                type="text"
                 placeholder="Enter medicine name"
                 className="search-input"
                 value={medicineName}
                 onChange={handleMedicineNameChange}
                 required
               />
-              <input 
-                type="text" 
+              <input
+                type="text"
                 placeholder="Enter pincode"
                 className="search-input"
                 value={pincode}
@@ -68,7 +68,7 @@ const HeroSection = () => {
                 pattern="\d{6}"
                 required
               />
-              <button 
+              <button
                 type="submit"
                 className="search-button"
                 disabled={!isSearchEnabled}
@@ -78,7 +78,7 @@ const HeroSection = () => {
             </div>
             <div className="checkbox-group">
               <label className="checkbox-label">
-                <input 
+                <input
                   type="checkbox"
                   checked={includeOffline}
                   onChange={handleOfflineCheckboxChange}
