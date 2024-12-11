@@ -45,8 +45,8 @@ const HeroSection = () => {
   return (
     <div className="hero-section">
       <div className="hero-content">
-        <h1 className="main-title">Your trusted Medicine finding App</h1>
-        <p className="customer-count">Meds made simple.</p>
+        <h1 className="main-title">Your medicines, Better prices </h1>
+        {/* <p className="customer-count">Meds made simple.</p> */}
         
         <form onSubmit={handleSearch} className="search-container">
           <div className="search-box">

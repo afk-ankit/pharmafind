@@ -1,7 +1,7 @@
 .hero-section {
   position: relative;
   min-height: 600px;
-  background-image: url('/Users/nomitachetia/Desktop/7thsemproject/mad/public/madd.jpg');
+  background-image: url('/Users/nomitachetia/Desktop/mad 2/public/madd.avif');
   background-size: cover;
   background-position: center;
   padding: 40px 20px;
@@ -48,10 +48,13 @@
   color: white;
 }
 
+/*
 .customer-count {
   font-size: 1.2rem;
   margin-bottom: 2rem;
+  color: white;
 }
+*/
 
 .search-container {
   max-width: 800px;
