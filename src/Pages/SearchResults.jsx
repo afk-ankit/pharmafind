@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { 
-  MapPin, 
-  Globe, 
-  Loader2, 
-  Search, 
-  PhoneCall, 
-  Clock, 
-  Tag 
+import {
+  MapPin,
+  Globe,
+  Loader2,
+  Search,
+  PhoneCall,
+  Clock,
+  Tag
 } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -88,25 +88,25 @@ const SearchResults = () => {
 
   const performSearch = () => {
     setIsLoading(true);
-  
+
     // Make search more flexible - case-insensitive, partial matching
     const filteredResults = medicineDatabase.filter(
       (result) =>
         result.title.toLowerCase().includes(currentSearch.medicine.toLowerCase()) &&
         (currentSearch.pincode ? result.pincode === currentSearch.pincode : true)
     );
-  
+
     const offline = filteredResults
       .filter(result => result.type === 'offline')
       .sort((a, b) => a.price - b.price);
-  
+
     // Only add online results if includeOnline is true
-    const online = currentSearch.includeOnline 
+    const online = currentSearch.includeOnline
       ? filteredResults
-          .filter(result => result.type === 'online')
-          .sort((a, b) => a.price - b.price)
+        .filter(result => result.type === 'online')
+        .sort((a, b) => a.price - b.price)
       : [];
-  
+
     setTimeout(() => {
       setOfflineResults(offline);
       setOnlineResults(online);
@@ -134,7 +134,7 @@ const SearchResults = () => {
         </div>
         <div className="result-card__price">${result.price.toFixed(2)}</div>
       </div>
-      
+
       <div className="result-card__content">
         <div className="mb-2">
           <h4 className="text-sm font-medium text-gray-700">{result.title}</h4>
@@ -154,8 +154,8 @@ const SearchResults = () => {
               </div>
               <div className={`
                 inline-block px-2 py-1 rounded 
-                ${result.stock === 'Available' 
-                  ? 'bg-green-100 text-green-800' 
+                ${result.stock === 'Available'
+                  ? 'bg-green-100 text-green-800'
                   : 'bg-yellow-100 text-yellow-800'
                 }
               `}>
@@ -172,9 +172,9 @@ const SearchResults = () => {
                 <Tag className="result-card__detail-icon" size={12} />
                 {result.discount}
               </div>
-              <a 
-                href={result.websiteUrl} 
-                target="_blank" 
+              <a
+                href={result.websiteUrl}
+                target="_blank"
                 rel="noopener noreferrer"
                 className="
                   bg-blue-500 text-white px-2 py-1 rounded 
@@ -194,14 +194,14 @@ const SearchResults = () => {
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navbar />
       <div className="container">
-        <form 
-          onSubmit={handleNewSearch} 
+        <form
+          onSubmit={handleNewSearch}
           className="search-form"
         >
           <div className="search-form__grid">
             <div>
-              <label 
-                htmlFor="medicine" 
+              <label
+                htmlFor="medicine"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
                 Medicine Name
@@ -212,7 +212,7 @@ const SearchResults = () => {
                 placeholder="e.g., Paracetamol"
                 value={currentSearch.medicine}
                 onChange={(e) => setCurrentSearch(prev => ({
-                  ...prev, 
+                  ...prev,
                   medicine: e.target.value
                 }))}
                 className="search-form__input"
@@ -220,8 +220,8 @@ const SearchResults = () => {
               />
             </div>
             <div>
-              <label 
-                htmlFor="pincode" 
+              <label
+                htmlFor="pincode"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
                 Pincode
@@ -232,7 +232,7 @@ const SearchResults = () => {
                 placeholder="e.g., 560001"
                 value={currentSearch.pincode}
                 onChange={(e) => setCurrentSearch(prev => ({
-                  ...prev, 
+                  ...prev,
                   pincode: e.target.value
                 }))}
                 className="search-form__input"
@@ -245,7 +245,7 @@ const SearchResults = () => {
                 type="checkbox"
                 checked={currentSearch.includeOnline}
                 onChange={() => setCurrentSearch(prev => ({
-                  ...prev, 
+                  ...prev,
                   includeOnline: !prev.includeOnline
                 }))}
                 className="form-checkbox text-blue-600 focus:ring-blue-500"
@@ -254,8 +254,8 @@ const SearchResults = () => {
                 Include Online Pharmacies
               </span>
             </label>
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="search-form__submit"
             >
               Search
@@ -283,10 +283,10 @@ const SearchResults = () => {
                 </div>
                 <div className="result-section__content">
                   {offlineResults.map(result => (
-                    <ResultCard 
-                      key={result.id} 
-                      result={result} 
-                      type="offline" 
+                    <ResultCard
+                      key={result.id}
+                      result={result}
+                      type="offline"
                     />
                   ))}
                 </div>
@@ -302,10 +302,10 @@ const SearchResults = () => {
                 </div>
                 <div className="result-section__content">
                   {onlineResults.map(result => (
-                    <ResultCard 
-                      key={result.id} 
-                      result={result} 
-                      type="online" 
+                    <ResultCard
+                      key={result.id}
+                      result={result}
+                      type="online"
                     />
                   ))}
                 </div>
