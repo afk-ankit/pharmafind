@@ -12,35 +12,35 @@ const teamMembers = [
     name: "Dr. Emily Roberts, PharmD",
     position: "Chief Pharmacist",
     experience: "Work experience - 15 years",
-    image: "../assets/emily.jpg", // Replace with actual image path
+    image: "../assets/emily.jpg", //  image path
   },
   {
     id: 2,
     name: "Dr. Michael Chang, MD",
     position: "Medical Advisor",
     experience: "Work experience - 12 years",
-    image: "vite.svg", // Replace with actual image path
+    image: "vite.svg", // image path
   },
   {
     id: 3,
     name: "Lisa Davis, RN, BSN",
     position: "Director of Health Services",
     experience: "Work experience - 8 years",
-    image: "vite.svg", // Replace with actual image path
+    image: "vite.svg", // image path
   },
   {
     id: 4,
     name: "John Williams, PharmD",
     position: "Pharmacy Supervisor",
     experience: "Work experience - 10 years",
-    image: "vite.svg", // Replace with actual image path
+    image: "vite.svg", // image path
   },
   {
     id: 5,
     name: "Sarah Miller, MD",
     position: "Healthcare Specialist",
     experience: "Work experience - 9 years",
-    image: "vite.svg", // Replace with actual image path
+    image: "vite.svg", //  image path
   },
 ];
 
