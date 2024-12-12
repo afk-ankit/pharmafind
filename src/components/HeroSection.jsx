@@ -76,7 +76,7 @@ const HeroSection = () => {
                 <span>Search</span>
               </button>
             </div>
-            <div className="checkbox-group">
+            {/* <div className="checkbox-group">
               <label className="checkbox-label">
                 <input
                   type="checkbox"
@@ -85,7 +85,7 @@ const HeroSection = () => {
                 />
                 <span>Include online results</span>
               </label>
-            </div>
+            </div> */}
           </div>
         </form>
       </div>

@@ -55,6 +55,83 @@ const medicineDatabase = [
     distance: '4.5 km'
   },
   {
+    id: 4,
+    title: 'Paracetamol',
+    description: '650mg - Extended relief',
+    type: 'offline',
+    pharmacyName: 'City Store',
+    price: 7,
+    pincode: '560001',
+    address: '456 Park Road, Bangalore',
+    contact: '080',
+    stock: 'Low Stock',
+    distance: '4.5 km'
+  },
+  {
+    id: 5,
+    title: 'Paracetamol',
+    description: '650mg - Extended relief',
+    type: 'offline',
+    pharmacyName: 'City Store',
+    price: 7,
+    pincode: '560001',
+    address: '456 Park Road, Bangalore',
+    contact: '080',
+    stock: 'Low Stock',
+    distance: '4.5 km'
+  },
+  {
+    id: 8,
+    title: 'Paracetamol',
+    description: '650mg - Extended relief',
+    type: 'offline',
+    pharmacyName: 'City Store',
+    price: 7,
+    pincode: '560001',
+    address: '456 Park Road, Bangalore',
+    contact: '080',
+    stock: 'Low Stock',
+    distance: '4.5 km'
+  },
+  {
+    id: 98,
+    title: 'Paracetamol',
+    description: '650mg - Extended relief',
+    type: 'offline',
+    pharmacyName: 'City Store',
+    price: 7,
+    pincode: '560001',
+    address: '456 Park Road, Bangalore',
+    contact: '080',
+    stock: 'Low Stock',
+    distance: '4.5 km'
+  },
+  {
+    id: 1,
+    title: 'Paracetamol',
+    description: 'Digital Pharmacy Option',
+    type: 'online',
+    pharmacyName: 'MedEasy Online',
+    price: 4.99,
+    pincode: '560001',
+    websiteUrl: 'https://medeasy.com',
+    deliveryTime: '1-2 days',
+    discount: '10% OFF'
+  },
+
+  {
+    id: 2,
+    title: 'Paracetamol',
+    description: 'Nationwide Delivery',
+    type: 'online',
+    pharmacyName: 'QuickMeds Digital',
+    price: 5.49,
+    pincode: '560001',
+    websiteUrl: 'https://quickmeds.com',
+    deliveryTime: '2-3 days',
+    discount: '5% OFF'
+  },
+  {
     id: 3,
     title: 'Paracetamol',
     description: 'Digital Pharmacy Option',
@@ -69,15 +146,39 @@ const medicineDatabase = [
   {
     id: 4,
     title: 'Paracetamol',
-    description: 'Nationwide Delivery',
+    description: 'Digital Pharmacy Option',
     type: 'online',
-    pharmacyName: 'QuickMeds Digital',
-    price: 5.49,
+    pharmacyName: 'MedEasy Online',
+    price: 4.99,
     pincode: '560001',
-    websiteUrl: 'https://quickmeds.com',
-    deliveryTime: '2-3 days',
-    discount: '5% OFF'
-  }
+    websiteUrl: 'https://medeasy.com',
+    deliveryTime: '1-2 days',
+    discount: '10% OFF'
+  },
+  {
+    id: 5,
+    title: 'Paracetamol',
+    description: 'Digital Pharmacy Option',
+    type: 'online',
+    pharmacyName: 'MedEasy Online',
+    price: 4.99,
+    pincode: '560001',
+    websiteUrl: 'https://medeasy.com',
+    deliveryTime: '1-2 days',
+    discount: '10% OFF'
+  },
+  {
+    id: 6,
+    title: 'Paracetamol',
+    description: 'Digital Pharmacy Option',
+    type: 'online',
+    pharmacyName: 'MedEasy Online',
+    price: 4.99,
+    pincode: '560001',
+    websiteUrl: 'https://medeasy.com',
+    deliveryTime: '1-2 days',
+    discount: '10% OFF'
+  },
 ];
 
 const SearchResults = () => {
@@ -86,6 +187,8 @@ const SearchResults = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [offlineResults, setOfflineResults] = useState([]);
   const [onlineResults, setOnlineResults] = useState([]);
+  const [visibleOfflineCount, setVisibleOfflineCount] = useState(4);
+  const [visibleOnlineCount, setVisibleOnlineCount] = useState(4);
   const [currentSearch, setCurrentSearch] = useState({
     medicine: searchParams.get('medicine') || '',
     pincode: searchParams.get('pincode') || '',
@@ -295,14 +398,18 @@ const SearchResults = () => {
                   <h2 className="text-xl font-semibold text-gray-800">Nearby Pharmacies</h2>
                 </div>
                 <div className="grid md:grid-cols-2 gap-4">
-                  {offlineResults.map(result => (
-                    <ResultCard
-                      key={result.id}
-                      result={result}
-                      type="offline"
-                    />
+                  {offlineResults.slice(0, visibleOfflineCount).map(result => (
+                    <ResultCard key={result.id} result={result} type="offline" />
                   ))}
                 </div>
+                {visibleOfflineCount < offlineResults.length && (
+                  <button
+                    onClick={() => setVisibleOfflineCount(prev => prev + 4)}
+                    className="mt-4 px-4 py-2 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+                  >
+                    More
+                  </button>
+                )}
               </div>
             )}
 
@@ -314,16 +421,21 @@ const SearchResults = () => {
                   <h2 className="text-xl font-semibold text-gray-800">Online Pharmacies</h2>
                 </div>
                 <div className="grid md:grid-cols-2 gap-4">
-                  {onlineResults.map(result => (
-                    <ResultCard
-                      key={result.id}
-                      result={result}
-                      type="online"
-                    />
+                  {onlineResults.slice(0, visibleOnlineCount).map(result => (
+                    <ResultCard key={result.id} result={result} type="online" />
                   ))}
                 </div>
+                {visibleOnlineCount < onlineResults.length && (
+                  <button
+                    onClick={() => setVisibleOnlineCount(prev => prev + 4)}
+                    className="mt-4 px-4 py-2 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+                  >
+                    More
+                  </button>
+                )}
               </div>
             )}
+
 
             {/* Empty State */}
             {offlineResults.length === 0 && onlineResults.length === 0 && (
