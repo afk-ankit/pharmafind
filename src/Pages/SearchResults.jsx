@@ -7,7 +7,8 @@ import {
   Loader2,
   PhoneCall,
   Clock,
-  Tag
+  Tag,
+  Truck
 } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -26,7 +27,8 @@ const medicineDatabase = [
     address: '123 Main Street, Bangalore',
     contact: '080-22334455',
     stock: 'Available',
-    distance: '2.3 km'
+    distance: '2.3 km',
+    homeDelivery: true,
   },
   {
     id: 2,
@@ -39,7 +41,9 @@ const medicineDatabase = [
     address: '456 Park Road, Bangalore',
     contact: '080-44556677',
     stock: 'Low Stock',
-    distance: '4.5 km'
+    distance: '4.5 km',
+    expiry: '20 dec 2025',
+    mfg: '20 dec 2023'
   },
   {
     id: 3,
@@ -102,7 +106,7 @@ const medicineDatabase = [
     price: 7,
     pincode: '560001',
     address: '456 Park Road, Bangalore',
-    contact: '080',
+    contact: '9613590050',
     stock: 'Low Stock',
     distance: '4.5 km'
   },
@@ -238,7 +242,12 @@ const SearchResults = () => {
   };
 
   const ResultCard = ({ result, type }) => (
-    <div className={`result-card ${type === 'offline' ? 'result-card__header--offline' : 'result-card__header--online'}`}>
+    <div
+      className={`result-card ${type === 'offline'
+        ? 'result-card__header--offline'
+        : 'result-card__header--online'
+        }`}
+    >
       <div className="result-card__header">
         <div className="flex items-center">
           {type === 'offline' ? (
@@ -246,7 +255,10 @@ const SearchResults = () => {
           ) : (
             <Globe className="result-card__detail-icon" size={20} />
           )}
-          <h3 className="result-card__pharmacy-name">{result.pharmacyName}</h3>
+          <h3 className="result-card__pharmacy-name">
+            {result.pharmacyName}
+          </h3>
+          <Truck className="ml-2 text-gray-600" size={16} title="Home Delivery Available" />
         </div>
         <div className="result-card__price">${result.price.toFixed(2)}</div>
       </div>
@@ -254,57 +266,34 @@ const SearchResults = () => {
       <div className="result-card__content">
         <div className="mb-2">
           <h4 className="text-sm font-medium text-gray-700">{result.title}</h4>
-          <p className="text-xs text-gray-500">{result.description}</p>
+          <p className="text-xs text-gray-500 mt-1">{result.description}</p>
         </div>
 
         <div className="result-card__details">
-          {type === 'offline' ? (
-            <>
-              <div className="result-card__detail-item">
-                <PhoneCall className="result-card__detail-icon" size={12} />
-                {result.contact}
-              </div>
-              <div className="result-card__detail-item">
-                <MapPin className="result-card__detail-icon" size={12} />
-                {result.distance}
-              </div>
-              <div className={`
-                inline-block px-2 py-1 rounded 
-                ${result.stock === 'Available'
-                  ? 'bg-green-100 text-green-800'
-                  : 'bg-yellow-100 text-yellow-800'
-                }
-              `}>
-                {result.stock}
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="result-card__detail-item">
-                <Clock className="result-card__detail-icon" size={12} />
-                {result.deliveryTime}
-              </div>
-              <div className="result-card__detail-item text-blue-600">
-                <Tag className="result-card__detail-icon" size={12} />
-                {result.discount}
-              </div>
-              <a
-                href={result.websiteUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="
-                  bg-blue-500 text-white px-2 py-1 rounded 
-                  hover:bg-blue-600 transition-colors text-xs
-                "
-              >
-                Visit Website
-              </a>
-            </>
-          )}
+          <div className="result-card__detail-item">
+            <PhoneCall className="result-card__detail-icon" size={12} />
+            {result.contact}
+          </div>
+          <div className="result-card__detail-item">
+            <MapPin className="result-card__detail-icon" size={12} />
+            {result.distance}
+          </div>
+          <div
+            className={`
+            inline-block px-2 py-1 rounded 
+            ${result.stock === 'Available'
+                ? 'bg-green-100 text-green-800'
+                : 'bg-yellow-100 text-yellow-800'
+              }
+          `}
+          >
+            {result.stock}
+          </div>
         </div>
       </div>
     </div>
   );
+
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
