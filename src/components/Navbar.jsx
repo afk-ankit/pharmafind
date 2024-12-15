@@ -23,8 +23,8 @@ const Navbar = () => {
         </Link>
         {pharmacy && (
           <>
-            <Link to="#" className="navbar-link text-red-500">
-              Logout
+            <Link to="/Inventory" className="navbar-link">
+              Inventory
             </Link>
             <Link to="#" className="navbar-link text-red-500">
               Logout

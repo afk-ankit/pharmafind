@@ -24,7 +24,7 @@ const Inventory = () => {
             inventory.data.map((item) => (
               <div
                 key={item.id}
-                className="border p-4 rounded-lg shadow hover:shadow-lg transition"
+                className="bg-white border p-4 rounded-lg shadow hover:shadow-lg transition"
               >
                 <h3 className="text-lg font-semibold text-blue-600 mb-2">
                   {item.Product.name}
