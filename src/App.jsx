@@ -13,6 +13,7 @@ import RegisterPharmacy from "./Pages/RegisterPharmacy";
 import LoginPharmacy from "./Pages/LoginPharmacy";
 import Inventory from "./Pages/Inventory";
 import AuthProvider from "./components/AuthProvider";
+import AddInventory from "./Pages/AddInventory";
 
 const App = () => {
   return (
@@ -35,6 +36,14 @@ const App = () => {
           element={
             <AuthProvider>
               <Inventory />
+            </AuthProvider>
+          }
+        />
+        <Route
+          path="/add-inventory"
+          element={
+            <AuthProvider>
+              <AddInventory />
             </AuthProvider>
           }
         />

@@ -22,9 +22,14 @@ const Navbar = () => {
           Pharmacy
         </Link>
         {pharmacy && (
-          <Link to="#" className="navbar-link text-red-500">
-            Logout
-          </Link>
+          <>
+            <Link to="#" className="navbar-link text-red-500">
+              Logout
+            </Link>
+            <Link to="#" className="navbar-link text-red-500">
+              Logout
+            </Link>
+          </>
         )}
       </div>
     </nav>

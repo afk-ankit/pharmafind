@@ -2,6 +2,7 @@ import { Plus } from "lucide-react";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import useInventory from "../hooks/useInventory";
+import { Link } from "react-router-dom";
 
 const Inventory = () => {
   const { data: inventory, isLoading } = useInventory();
@@ -11,9 +12,11 @@ const Inventory = () => {
       <main className="p-8">
         <div className="mb-8 flex justify-between items-center">
           <h1 className="text-4xl font-bold ">Inventory</h1>
-          <div className="bg-blue-600 text-white p-2 rounded-full">
-            <Plus />
-          </div>
+          <Link to={"/add-inventory"}>
+            <div className="bg-blue-600 text-white p-2 rounded-full">
+              <Plus />
+            </div>
+          </Link>
         </div>
         {isLoading && <span>Loading...</span>}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -27,7 +30,7 @@ const Inventory = () => {
                   {item.Product.name}
                 </h3>
                 <p className="text-gray-700">Product ID: {item.productId}</p>
-                <p className="text-gray-700">Price: ${item.price}</p>
+                <p className="text-gray-700">Price: ₹{item.price}</p>
                 <p className="text-gray-700">Quantity: {item.quantity}</p>
               </div>
             ))

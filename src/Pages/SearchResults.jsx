@@ -1,5 +1,5 @@
 // src/pages/SearchResults.jsx
-import { Globe, Loader2, MapPin, Truck } from "lucide-react";
+import { Globe, Loader2, MapPin } from "lucide-react";
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Footer from "../components/Footer";
@@ -111,19 +111,10 @@ const SearchResults = () => {
                   </h2>
                 </div>
                 <div className="grid md:grid-cols-2 gap-4">
-                  {searchResults.offline.slice(0, 5).map((result) => (
-                    <ResultCard
-                      key={result.id}
-                      result={result}
-                      type="offline"
-                    />
+                  {searchResults.offline.map((result, key) => (
+                    <OfflineCard key={key} result={result} />
                   ))}
                 </div>
-                {5 < searchResults.offline.length && (
-                  <button className="mt-4 px-4 py-2 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
-                    More
-                  </button>
-                )}
               </div>
             )}
 
@@ -137,15 +128,10 @@ const SearchResults = () => {
                   </h2>
                 </div>
                 <div className="grid md:grid-cols-2 gap-4">
-                  {searchResults.online.slice(0, 5).map((result) => (
-                    <ResultCard key={result.id} result={result} type="online" />
+                  {searchResults.online.map((result, key) => (
+                    <OnlineCard result={result} key={key} />
                   ))}
                 </div>
-                {5 < searchResults.online.length && (
-                  <button className="mt-4 px-4 py-2 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
-                    More
-                  </button>
-                )}
               </div>
             )}
 
@@ -171,73 +157,55 @@ const SearchResults = () => {
 
 export default SearchResults;
 
-const ResultCard = ({ result, type }) => (
-  <a href={result.link}>
-    <div
-      className={`result-card ${
-        type === "offline"
-          ? "result-card__header--offline"
-          : "result-card__header--online"
-      }`}
-    >
-      <div className="result-card__header">
-        <div className="flex items-center">
-          {type === "offline" ? (
-            <MapPin className="result-card__detail-icon" size={20} />
-          ) : (
-            <Globe className="result-card__detail-icon" size={20} />
-          )}
-          <h3 className="result-card__pharmacy-name">{result.name}</h3>
-          <Truck
-            className="ml-2 text-gray-600"
-            size={16}
-            title="Home Delivery Available"
-          />
-        </div>
-        <div className="result-card__price">₹{result.price}</div>
-      </div>
-
-      <div className="result-card__content flex gap-8">
-        <img
-          src={result.image}
-          alt="No image"
-          className="mx-auto w-[100px] h-[100px] object-contain"
-        />
-        <div className="flex-1">
-          <div className="mb-2">
-            <h4 className="text-sm font-medium text-gray-700">
-              {result.packSize}
+const OfflineCard = ({ result }) => {
+  return (
+    <div className="bg-gray-100 rounded-md shadow-md p-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-4">
+          <div>
+            <h4 className="text-lg font-bold text-blue-600">
+              {result.Pharmacy.name}
             </h4>
-            <h4 className="text-sm font-medium text-gray-700">
-              {result.deliveryDate}
-            </h4>
-            <p className="text-xs text-gray-500 mt-1">{result.pharmacy}</p>
+            <p className="text-xs text-gray-500">{result.Pharmacy.location}</p>
           </div>
         </div>
-        {/**/}
-        {/*   <div className="result-card__details"> */}
-        {/*     <div className="result-card__detail-item"> */}
-        {/*       <PhoneCall className="result-card__detail-icon" size={12} /> */}
-        {/*       {result?.contact} */}
-        {/*     </div> */}
-        {/*     <div className="result-card__detail-item"> */}
-        {/*       <MapPin className="result-card__detail-icon" size={12} /> */}
-        {/*       {result?.distance} */}
-        {/*     </div> */}
-        {/*     <div */}
-        {/*       className={` */}
-        {/*         inline-block px-2 py-1 rounded  */}
-        {/*         ${ */}
-        {/*           result?.stock === "Available" */}
-        {/*             ? "bg-green-100 text-green-800" */}
-        {/*             : "bg-yellow-100 text-yellow-800" */}
-        {/*         } */}
-        {/*       `} */}
-        {/*     > */}
-        {/*       {result?.stock} */}
-        {/*     </div> */}
-        {/*   </div> */}
+        <div className="text-green-500 font-medium">₹{result.price}</div>
+      </div>
+      <div className="mt-2 flex items-center justify-between">
+        <div className="text-gray-500 text-xs">Qty: {result.quantity}</div>
+        <div className="text-gray-500 text-xs">
+          Product: {result.Product.name} by {result.Product.manufacturer}
+        </div>
       </div>
     </div>
-  </a>
-);
+  );
+};
+
+const OnlineCard = ({ result }) => {
+  return (
+    <a href={result.link}>
+      <div className="bg-gray-100 rounded-md shadow-md p-4">
+        <div className="flex items-start justify-between">
+          <div className="flex-1">
+            <h4 className="text-sm font-medium text-gray-700">{result.name}</h4>
+          </div>
+          <div className="text-green-500 font-medium">₹{result.price}</div>
+        </div>
+        <div className="mt-2 flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <img
+              src={result.image || "https://via.placeholder.com/100"}
+              alt="No image"
+              className="w-12 h-12 object-contain"
+            />
+            <div>
+              <p className="text-xs text-gray-500">{result.packSize}</p>
+              <p className="text-xs text-gray-500">{result.deliveryDate}</p>
+            </div>
+          </div>
+          <div className="text-gray-500 text-xs">{result.pharmacy}</div>
+        </div>
+      </div>
+    </a>
+  );
+};
