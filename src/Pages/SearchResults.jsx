@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import useSearch from "../hooks/useSearch";
+import { POST } from "../utils/axios";
 
 const SearchResults = () => {
   const navigate = useNavigate();
@@ -123,7 +124,11 @@ const SearchResults = () => {
                 </div>
                 <div className="grid md:grid-cols-2 gap-4">
                   {searchResults.online.map((result, key) => (
-                    <OnlineCard result={result} key={key} />
+                    <OnlineCard
+                      result={result}
+                      key={key}
+                      searchId={searchResults.searchId}
+                    />
                   ))}
                 </div>
               </div>
@@ -172,9 +177,21 @@ const OfflineCard = ({ result }) => {
   );
 };
 
-const OnlineCard = ({ result }) => {
+const OnlineCard = ({ result, searchId }) => {
   return (
-    <a href={result.link}>
+    <a
+      href={result.link}
+      onClick={async () => {
+        try {
+          await POST("/redirects", {
+            url: result.link,
+            searchId,
+          });
+        } catch (error) {
+          console.log(error.message);
+        }
+      }}
+    >
       <div className="bg-gray-100 rounded-md shadow-md p-4">
         <div className="flex items-start justify-between">
           <div className="flex-1">
