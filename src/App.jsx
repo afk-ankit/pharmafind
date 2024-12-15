@@ -11,6 +11,8 @@ import SearchResults from "./Pages/SearchResults";
 import Register from "./Pages/Register";
 import RegisterPharmacy from "./Pages/RegisterPharmacy";
 import LoginPharmacy from "./Pages/LoginPharmacy";
+import Inventory from "./Pages/Inventory";
+import AuthProvider from "./components/AuthProvider";
 
 const App = () => {
   return (
@@ -28,6 +30,14 @@ const App = () => {
 
         <Route path="/register-pharmacy" element={<RegisterPharmacy />} />
         <Route path="/login-pharmacy" element={<LoginPharmacy />} />
+        <Route
+          path="/inventory"
+          element={
+            <AuthProvider>
+              <Inventory />
+            </AuthProvider>
+          }
+        />
         <Route path="/home" element={<Home />} />
       </Routes>
     </Router>
