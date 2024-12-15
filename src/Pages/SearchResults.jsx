@@ -1,11 +1,9 @@
-// src/pages/SearchResults.jsx
 import { Globe, Loader2, MapPin } from "lucide-react";
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import useSearch from "../hooks/useSearch";
-import "../styles/SearchResults.css";
 
 const SearchResults = () => {
   const navigate = useNavigate();
@@ -90,7 +88,6 @@ const SearchResults = () => {
           </div>
         </form>
 
-        {/* Loading State */}
         {isLoading && (
           <div className="flex flex-col items-center justify-center py-12">
             <Loader2 className="animate-spin text-blue-500" size={48} />
@@ -98,10 +95,8 @@ const SearchResults = () => {
           </div>
         )}
 
-        {/* Results Section */}
         {!isLoading && (
           <div className="space-y-6">
-            {/* Offline Results Section */}
             {searchResults?.offline.length > 0 && (
               <div className="bg-white shadow-md rounded-lg p-6">
                 <div className="flex items-center border-b pb-3 mb-4">
@@ -118,7 +113,6 @@ const SearchResults = () => {
               </div>
             )}
 
-            {/* Online Results Section */}
             {searchResults.online.length > 0 && (
               <div className="bg-white shadow-md rounded-lg p-6">
                 <div className="flex items-center border-b pb-3 mb-4">
@@ -135,7 +129,6 @@ const SearchResults = () => {
               </div>
             )}
 
-            {/* Empty State */}
             {searchResults.offline.length === 0 &&
               searchResults.online.length === 0 && (
                 <div className="bg-white shadow-md rounded-lg p-12 text-center">
@@ -154,8 +147,6 @@ const SearchResults = () => {
     </div>
   );
 };
-
-export default SearchResults;
 
 const OfflineCard = ({ result }) => {
   return (
@@ -209,3 +200,5 @@ const OnlineCard = ({ result }) => {
     </a>
   );
 };
+
+export default SearchResults;
