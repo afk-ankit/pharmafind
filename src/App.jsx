@@ -14,8 +14,23 @@ import LoginPharmacy from "./Pages/LoginPharmacy";
 import Inventory from "./Pages/Inventory";
 import AuthProvider from "./components/AuthProvider";
 import AddInventory from "./Pages/AddInventory";
+import { usePharmacyStore } from "./store/pharmacyStore";
+import { GET } from "./utils/axios";
+import { useEffect } from "react";
 
 const App = () => {
+  const { setPharmacy } = usePharmacyStore();
+  useEffect(() => {
+    async function getUser() {
+      try {
+        const response = await GET("/pharmacy/me");
+        setPharmacy(response.data.pharmacy);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+    getUser();
+  }, [setPharmacy]);
   return (
     <Router>
       <Routes>
