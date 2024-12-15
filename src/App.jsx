@@ -9,6 +9,7 @@ import HeroSection from "./components/HeroSection";
 import SearchResults from "./Pages/SearchResults";
 
 import Register from "./Pages/Register";
+import RegisterPharmacy from "./Pages/RegisterPharmacy";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
 
+        <Route path="/register-pharmacy" element={<RegisterPharmacy />} />
         <Route path="/home" element={<Home />} />
       </Routes>
     </Router>

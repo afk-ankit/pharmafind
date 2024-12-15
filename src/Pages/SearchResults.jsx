@@ -1,5 +1,5 @@
 // src/pages/SearchResults.jsx
-import { Globe, Loader2, MapPin, PhoneCall, Truck } from "lucide-react";
+import { Globe, Loader2, MapPin, Truck } from "lucide-react";
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Footer from "../components/Footer";
@@ -227,4 +227,3 @@ const ResultCard = ({ result, type }) => (
     {/* </div> */}
   </div>
 );
-

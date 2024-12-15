@@ -7,3 +7,11 @@ const axiosInstance = axios.create({
 export const GET = async (url: string): Promise<AxiosResponse> => {
   return axiosInstance.get(url);
 };
+
+export const POST = async (
+  url: string,
+  data: any,
+  option: any = {},
+): Promise<AxiosResponse> => {
+  return axiosInstance.post(url, data, option);
+};

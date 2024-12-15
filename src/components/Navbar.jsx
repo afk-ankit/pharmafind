@@ -1,7 +1,6 @@
-import React from 'react';
-import '../styles/Navbar.css';
-import { Link } from 'react-router-dom';
-import Logo from "../assets/logo.png"
+import { Link } from "react-router-dom";
+import Logo from "../assets/logo.png";
+import "../styles/Navbar.css";
 
 const Navbar = () => {
   return (
@@ -11,12 +10,19 @@ const Navbar = () => {
         <span className="navbar-brand">PharmaFind</span>
       </div>
       <div className="navbar-right">
-        <Link to="/" className="navbar-link">Home</Link>
-
-        <Link to="/login" className="navbar-link">Login</Link>
+        <Link to="/" className="navbar-link">
+          Home
+        </Link>
+        <Link to="/login" className="navbar-link">
+          Login
+        </Link>
+        <Link to="/register-pharmacy" className="navbar-link">
+          Pharmacy
+        </Link>
       </div>
     </nav>
   );
 };
 
 export default Navbar;
+

@@ -1,102 +1,97 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { EyeIcon, EyeOffIcon } from 'lucide-react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import '../styles/Register.css';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { EyeIcon, EyeOffIcon } from "lucide-react";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import "../styles/Register.css";
+import userMutationHook from "../hooks/userMutationHook";
 
 const Register = () => {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    address: '',
-    city: '',
-    pincode: ''
+    fullName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    address: "",
+    city: "",
+    pincode: "",
   });
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { mutate } = userMutationHook();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
     // Clear error when user starts typing
     if (errors[name]) {
-      setErrors(prevState => ({
+      setErrors((prevState) => ({
         ...prevState,
-        [name]: ''
+        [name]: "",
       }));
     }
   };
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     // Existing validations
     if (!formData.fullName.trim()) {
-      newErrors.fullName = 'Full name is required';
+      newErrors.fullName = "Full name is required";
     }
 
     if (!formData.email) {
-      newErrors.email = 'Email is required';
+      newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email';
+      newErrors.email = "Please enter a valid email";
     }
-    
+
     if (!formData.password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = "Password is required";
     } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
+      newErrors.password = "Password must be at least 6 characters";
     }
 
     if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'Please confirm your password';
+      newErrors.confirmPassword = "Please confirm your password";
     } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
+      newErrors.confirmPassword = "Passwords do not match";
     }
-    
+
     // New address validations
     if (!formData.address.trim()) {
-      newErrors.address = 'Address is required';
+      newErrors.address = "Address is required";
     }
 
     if (!formData.city.trim()) {
-      newErrors.city = 'City is required';
+      newErrors.city = "City is required";
     }
 
     if (!formData.pincode.trim()) {
-      newErrors.pincode = 'Pincode is required';
+      newErrors.pincode = "Pincode is required";
     } else if (!/^\d{6}$/.test(formData.pincode)) {
-      newErrors.pincode = 'Pincode must be 6 digits';
+      newErrors.pincode = "Pincode must be 6 digits";
     }
-    
+
     return newErrors;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = validateForm();
-    
+
     if (Object.keys(newErrors).length === 0) {
       setIsLoading(true);
       try {
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        console.log('Form submitted:', formData);
-        // Add your actual registration logic here
-        
-        alert('Account created successfully!');
-        navigate('/login');
+        mutate(formData);
       } catch (error) {
-        console.error('Registration error:', error);
-        setErrors({ submit: 'Registration failed. Please try again.' });
+        console.error("Registration error:", error);
+        setErrors({ submit: "Registration failed. Please try again." });
       } finally {
         setIsLoading(false);
       }
@@ -113,11 +108,10 @@ const Register = () => {
           <div className="register-header">
             <h2>Create your account</h2>
             <p>
-              Already have an account?{' '}
-              <Link to="/login">Sign in</Link>
+              Already have an account? <Link to="/login">Sign in</Link>
             </p>
           </div>
-          
+
           <form onSubmit={handleSubmit} className="register-form">
             {/* Existing fields */}
             <div className="form-group">
@@ -129,9 +123,11 @@ const Register = () => {
                 value={formData.fullName}
                 onChange={handleChange}
                 disabled={isLoading}
-                className={errors.fullName ? 'error' : ''}
+                className={errors.fullName ? "error" : ""}
               />
-              {errors.fullName && <span className="error-message">{errors.fullName}</span>}
+              {errors.fullName && (
+                <span className="error-message">{errors.fullName}</span>
+              )}
             </div>
 
             <div className="form-group">
@@ -143,11 +139,13 @@ const Register = () => {
                 value={formData.email}
                 onChange={handleChange}
                 disabled={isLoading}
-                className={errors.email ? 'error' : ''}
+                className={errors.email ? "error" : ""}
               />
-              {errors.email && <span className="error-message">{errors.email}</span>}
+              {errors.email && (
+                <span className="error-message">{errors.email}</span>
+              )}
             </div>
-            
+
             {/* Password fields remain the same */}
             <div className="form-group">
               <label htmlFor="password">Password</label>
@@ -159,7 +157,7 @@ const Register = () => {
                   value={formData.password}
                   onChange={handleChange}
                   disabled={isLoading}
-                  className={errors.password ? 'error' : ''}
+                  className={errors.password ? "error" : ""}
                 />
                 <button
                   type="button"
@@ -174,7 +172,9 @@ const Register = () => {
                   )}
                 </button>
               </div>
-              {errors.password && <span className="error-message">{errors.password}</span>}
+              {errors.password && (
+                <span className="error-message">{errors.password}</span>
+              )}
             </div>
 
             <div className="form-group">
@@ -187,7 +187,7 @@ const Register = () => {
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   disabled={isLoading}
-                  className={errors.confirmPassword ? 'error' : ''}
+                  className={errors.confirmPassword ? "error" : ""}
                 />
                 <button
                   type="button"
@@ -217,10 +217,12 @@ const Register = () => {
                 value={formData.address}
                 onChange={handleChange}
                 disabled={isLoading}
-                className={errors.address ? 'error' : ''}
+                className={errors.address ? "error" : ""}
                 placeholder="Enter your full address"
               />
-              {errors.address && <span className="error-message">{errors.address}</span>}
+              {errors.address && (
+                <span className="error-message">{errors.address}</span>
+              )}
             </div>
 
             <div className="form-group">
@@ -232,10 +234,12 @@ const Register = () => {
                 value={formData.city}
                 onChange={handleChange}
                 disabled={isLoading}
-                className={errors.city ? 'error' : ''}
+                className={errors.city ? "error" : ""}
                 placeholder="Enter your city"
               />
-              {errors.city && <span className="error-message">{errors.city}</span>}
+              {errors.city && (
+                <span className="error-message">{errors.city}</span>
+              )}
             </div>
 
             <div className="form-group">
@@ -247,33 +251,35 @@ const Register = () => {
                 value={formData.pincode}
                 onChange={handleChange}
                 disabled={isLoading}
-                className={errors.pincode ? 'error' : ''}
+                className={errors.pincode ? "error" : ""}
                 placeholder="Enter 6-digit pincode"
                 maxLength={6}
               />
-              {errors.pincode && <span className="error-message">{errors.pincode}</span>}
+              {errors.pincode && (
+                <span className="error-message">{errors.pincode}</span>
+              )}
             </div>
 
             <div className="terms-section">
-              <input
-                type="checkbox"
-                id="terms"
-                disabled={isLoading}
-              />
+              <input type="checkbox" id="terms" disabled={isLoading} />
               <label htmlFor="terms">
-                I agree to the{' '}
-                <Link to="/terms" className="terms-link">Terms of Service</Link>
-                {' '}and{' '}
-                <Link to="/privacy" className="terms-link">Privacy Policy</Link>
+                I agree to the{" "}
+                <Link to="/terms" className="terms-link">
+                  Terms of Service
+                </Link>{" "}
+                and{" "}
+                <Link to="/privacy" className="terms-link">
+                  Privacy Policy
+                </Link>
               </label>
             </div>
 
             <button
               type="submit"
-              className={`submit-button ${isLoading ? 'loading' : ''}`}
+              className={`submit-button ${isLoading ? "loading" : ""}`}
               disabled={isLoading}
             >
-              {isLoading ? 'Creating account...' : 'Create account'}
+              {isLoading ? "Creating account..." : "Create account"}
             </button>
           </form>
         </div>
@@ -284,3 +290,4 @@ const Register = () => {
 };
 
 export default Register;
+
