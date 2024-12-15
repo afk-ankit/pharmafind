@@ -16,7 +16,7 @@ const usePharmacyLogin = () => {
     onSuccess: (res) => {
       toast.success("User logged in successfully");
       setPharmacy(res.pharmacy);
-      navigate("/");
+      navigate("/inventory");
     },
     onError: (error) => {
       if (error instanceof AxiosError)

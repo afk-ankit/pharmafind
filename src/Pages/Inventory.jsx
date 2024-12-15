@@ -3,15 +3,17 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import useInventory from "../hooks/useInventory";
 import { Link } from "react-router-dom";
+import { usePharmacyStore } from "../store/pharmacyStore";
 
 const Inventory = () => {
   const { data: inventory, isLoading } = useInventory();
+  const { pharmacy } = usePharmacyStore();
   return (
     <div>
       <Navbar />
       <main className="p-8">
         <div className="mb-8 flex justify-between items-center">
-          <h1 className="text-4xl font-bold ">Inventory</h1>
+          <h1 className="text-4xl font-bold ">{pharmacy?.name} Inventory</h1>
           <Link to={"/add-inventory"}>
             <div className="bg-blue-600 text-white p-2 rounded-full">
               <Plus />
