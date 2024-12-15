@@ -21,6 +21,11 @@ const Navbar = () => {
         <Link to="/register-pharmacy" className="navbar-link">
           Pharmacy
         </Link>
+        {pharmacy && (
+          <Link to="#" className="navbar-link text-red-500">
+            Logout
+          </Link>
+        )}
       </div>
     </nav>
   );
