@@ -1,11 +1,10 @@
-import React from 'react';
-import Navbar from '../components/Navbar';
-import HeroSection from '../components/HeroSection';
-import Feature1 from '../components/Feature1';
-import WhyUsSection from '../components/WhyUsSection';
+import Feature1 from "../components/Feature1";
+import Footer from "../components/Footer";
+import HeroSection from "../components/HeroSection";
+import Navbar from "../components/Navbar";
 import TeamSection from "../components/TeamSection";
-import Testimonials from "../components/Testimonials"
-import Footer from '../components/Footer';
+import Testimonials from "../components/Testimonials";
+import WhyUsSection from "../components/WhyUsSection";
 
 const Home = () => {
   return (

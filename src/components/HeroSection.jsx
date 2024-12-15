@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import '../styles/HeroSection.css';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../styles/HeroSection.css";
 
 const HeroSection = () => {
-  const [medicineName, setMedicineName] = useState('');
-  const [pincode, setPincode] = useState('');
+  const [medicineName, setMedicineName] = useState("");
+  const [pincode, setPincode] = useState("");
   const [isSearchEnabled, setIsSearchEnabled] = useState(false);
-  const [includeOffline, setIncludeOffline] = useState(false);
 
   const navigate = useNavigate();
 
@@ -24,37 +23,33 @@ const HeroSection = () => {
 
   const validateSearch = (medicine, pin) => {
     // Check if medicine name is not empty and pincode is exactly 6 digits
-    setIsSearchEnabled(
-      medicine.trim() !== '' &&
-      /^\d{6}$/.test(pin)
-    );
+    setIsSearchEnabled(medicine.trim() !== "" && /^\d{6}$/.test(pin));
   };
 
   const handleSearch = (e) => {
     e.preventDefault(); // Prevent form submission
     if (isSearchEnabled) {
       // Navigate with query parameters
-      navigate(`/search?medicine=${encodeURIComponent(medicineName)}&pincode=${pincode}&offline=${includeOffline}`);
+      navigate(
+        `/search?medicine=${encodeURIComponent(medicineName)}&pincode=${pincode}`,
+      );
     }
   };
-
-  const handleOfflineCheckboxChange = (e) => {
-    setIncludeOffline(e.target.checked);
-  };
-
   return (
     <div className="hero-section">
       <div className="hero-content">
         <h1 className="main-title">Your medicines at better prices </h1>
-        <p className="customer-count">Find the best deals on medicines—locally and online, all in one place!</p>
+        <p className="customer-count">
+          Find the best deals on medicines—locally and online, all in one place!
+        </p>
 
-        <form onSubmit={handleSearch} className="search-container"  >
+        <form onSubmit={handleSearch} className="search-container">
           <div className="search-box">
             <div className="input-group">
               <input
                 type="text"
                 placeholder="Enter medicine name"
-                className="search-input"
+                className="search-input text-black"
                 value={medicineName}
                 onChange={handleMedicineNameChange}
                 required
@@ -62,7 +57,7 @@ const HeroSection = () => {
               <input
                 type="text"
                 placeholder="Enter pincode"
-                className="search-input"
+                className="search-input text-black"
                 value={pincode}
                 onChange={handlePincodeChange}
                 pattern="\d{6}"
@@ -76,16 +71,6 @@ const HeroSection = () => {
                 <span>Search</span>
               </button>
             </div>
-            {/* <div className="checkbox-group">
-              <label className="checkbox-label">
-                <input
-                  type="checkbox"
-                  checked={includeOffline}
-                  onChange={handleOfflineCheckboxChange}
-                />
-                <span>Include online results</span>
-              </label>
-            </div> */}
           </div>
         </form>
       </div>
