@@ -10,6 +10,7 @@ import SearchResults from "./Pages/SearchResults";
 
 import Register from "./Pages/Register";
 import RegisterPharmacy from "./Pages/RegisterPharmacy";
+import LoginPharmacy from "./Pages/LoginPharmacy";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
 
         <Route path="/register-pharmacy" element={<RegisterPharmacy />} />
+        <Route path="/login-pharmacy" element={<LoginPharmacy />} />
         <Route path="/home" element={<Home />} />
       </Routes>
     </Router>

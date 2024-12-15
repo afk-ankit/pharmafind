@@ -1,13 +1,15 @@
 import { Link } from "react-router-dom";
 import Logo from "../assets/logo.png";
 import "../styles/Navbar.css";
+import { usePharmacyStore } from "../store/pharmacyStore";
 
 const Navbar = () => {
+  const { pharmacy } = usePharmacyStore();
   return (
-    <nav className="navbar sticky top-0">
+    <nav className="navbar sticky top-0 text-black">
       <div className="navbar-left">
         <img src={Logo} alt="PharmaFind Logo" className="navbar-logo" />
-        <span className="navbar-brand">PharmaFind</span>
+        <span className="navbar-brand text-black">PharmaFind</span>
       </div>
       <div className="navbar-right">
         <Link to="/" className="navbar-link">
@@ -25,4 +27,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

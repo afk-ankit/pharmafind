@@ -194,14 +194,14 @@ const ResultCard = ({ result, type }) => (
             title="Home Delivery Available"
           />
         </div>
-        <div className="result-card__price">${result.price}</div>
+        <div className="result-card__price">₹{result.price}</div>
       </div>
 
       <div className="result-card__content flex gap-8">
         <img
           src={result.image}
           alt="No image"
-          className="mx-auto w-[200px] h-[200px] object-contain"
+          className="mx-auto w-[100px] h-[100px] object-contain"
         />
         <div className="flex-1">
           <div className="mb-2">

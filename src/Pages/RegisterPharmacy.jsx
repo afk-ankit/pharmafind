@@ -33,7 +33,7 @@ const RegisterPharmacy = () => {
           <div className="register-header">
             <h2>Register Your Pharmacy</h2>
             <p>
-              Already registered? <Link to="/login">Sign in</Link>
+              Already registered? <Link to="/login-pharmacy">Sign in</Link>
             </p>
           </div>
           <form
