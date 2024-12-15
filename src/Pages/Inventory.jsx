@@ -22,8 +22,8 @@ const Inventory = () => {
         </div>
         {isLoading && <span>Loading...</span>}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {inventory && inventory.data.length > 0 ? (
-            inventory.data.map((item) => (
+          {inventory && inventory.data?.length > 0 ? (
+            inventory?.data.map((item) => (
               <div
                 key={item.id}
                 className="bg-white border p-4 rounded-lg shadow hover:shadow-lg transition"
