@@ -186,45 +186,45 @@ const ResultCard = ({ result, type }) => (
         ) : (
           <Globe className="result-card__detail-icon" size={20} />
         )}
-        <h3 className="result-card__pharmacy-name">{result.pharmacyName}</h3>
+        <h3 className="result-card__pharmacy-name">{result.name}</h3>
         <Truck
           className="ml-2 text-gray-600"
           size={16}
           title="Home Delivery Available"
         />
       </div>
-      <div className="result-card__price">${result.price?.toFixed(2)}</div>
+      <div className="result-card__price">${result.price}</div>
     </div>
 
-    <div className="result-card__content">
-      <div className="mb-2">
-        <h4 className="text-sm font-medium text-gray-700">{result.title}</h4>
-        <p className="text-xs text-gray-500 mt-1">{result.description}</p>
-      </div>
-
-      <div className="result-card__details">
-        <div className="result-card__detail-item">
-          <PhoneCall className="result-card__detail-icon" size={12} />
-          {result?.contact}
-        </div>
-        <div className="result-card__detail-item">
-          <MapPin className="result-card__detail-icon" size={12} />
-          {result?.distance}
-        </div>
-        <div
-          className={`
-            inline-block px-2 py-1 rounded 
-            ${
-              result?.stock === "Available"
-                ? "bg-green-100 text-green-800"
-                : "bg-yellow-100 text-yellow-800"
-            }
-          `}
-        >
-          {result?.stock}
-        </div>
-      </div>
-    </div>
+    {/* <div className="result-card__content"> */}
+    {/*   <div className="mb-2"> */}
+    {/*     <h4 className="text-sm font-medium text-gray-700">{result.title}</h4> */}
+    {/*     <p className="text-xs text-gray-500 mt-1">{result.description}</p> */}
+    {/*   </div> */}
+    {/**/}
+    {/*   <div className="result-card__details"> */}
+    {/*     <div className="result-card__detail-item"> */}
+    {/*       <PhoneCall className="result-card__detail-icon" size={12} /> */}
+    {/*       {result?.contact} */}
+    {/*     </div> */}
+    {/*     <div className="result-card__detail-item"> */}
+    {/*       <MapPin className="result-card__detail-icon" size={12} /> */}
+    {/*       {result?.distance} */}
+    {/*     </div> */}
+    {/*     <div */}
+    {/*       className={` */}
+    {/*         inline-block px-2 py-1 rounded  */}
+    {/*         ${ */}
+    {/*           result?.stock === "Available" */}
+    {/*             ? "bg-green-100 text-green-800" */}
+    {/*             : "bg-yellow-100 text-yellow-800" */}
+    {/*         } */}
+    {/*       `} */}
+    {/*     > */}
+    {/*       {result?.stock} */}
+    {/*     </div> */}
+    {/*   </div> */}
+    {/* </div> */}
   </div>
 );
 
